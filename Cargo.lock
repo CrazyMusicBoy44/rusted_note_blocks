@@ -7,8 +7,5 @@ name = "rusted_note_blocks_core"
 version = "0.1.0"
 
 [[package]]
-name = "rusted_note_blocks_gui"
+name = "rusted_note_blocks_ui"
 version = "0.1.0"
-dependencies = [
- "rusted_note_blocks_core",
-]
