@@ -1,6 +1,4 @@
-[package]
-name = "rusted_note_block_daw"
-version = "0.1.0"
-edition = "2024"
+[workspace]
+resolver = "3"
+members = ["crates/rusted_note_blocks_core", "crates/rusted_note_blocks_gui"]
 
-[dependencies]
