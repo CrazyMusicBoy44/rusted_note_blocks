@@ -1,3 +1,4 @@
+use crate::number_types::U0F16;
 use crate::number_types::U8F8;
 
 #[derive(Debug, PartialEq, Eq, Clone)]
@@ -10,7 +11,7 @@ pub enum NoteType {
 pub struct Note {
     pub note_type: NoteType,
     pub sample_index: u32,
-    pub volume: u16, // Unsigned fixed point (0.16) number (from 0 to 1)
+    pub volume: U0F16,
     pub pitch: U8F8,
 }
 
