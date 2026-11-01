@@ -2,3 +2,9 @@
 resolver = "3"
 members = ["crates/rusted_note_blocks_core", "crates/rusted_note_blocks_desktop", "crates/rusted_note_blocks_ui"]
 
+[patch.crates-io]
+egui = { path = "../egui/crates/egui" }
+epaint = { path = "../egui/crates/epaint" }
+emath = { path = "../egui/crates/emath" }
+egui-winit = { path = "../egui/crates/egui-winit" }
+egui-wgpu = { path = "../egui/crates/egui-wgpu" }

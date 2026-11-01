@@ -767,7 +767,6 @@ checksum = "d8b14ccef22fc6f5a8f4d7d768562a182c04ce9a3b3157b91390b52ddfdf1a76"
 [[package]]
 name = "ecolor"
 version = "0.37.0"
-source = "git+https://github.com/emilk/egui?branch=main#fc9d66dda742d722eedaa8684d23f86369cf8e5f"
 dependencies = [
  "bytemuck",
  "emath",
@@ -776,7 +775,8 @@ dependencies = [
 [[package]]
 name = "eframe"
 version = "0.37.0"
-source = "git+https://github.com/emilk/egui?branch=main#fc9d66dda742d722eedaa8684d23f86369cf8e5f"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9c5642501a65ca657d05f00c643a5c14ff2346cb3818032bfe23d58e1f8e5f84"
 dependencies = [
  "ahash",
  "bytemuck",
@@ -812,7 +812,6 @@ dependencies = [
 [[package]]
 name = "egui"
 version = "0.37.0"
-source = "git+https://github.com/emilk/egui?branch=main#fc9d66dda742d722eedaa8684d23f86369cf8e5f"
 dependencies = [
  "accesskit",
  "ahash",
@@ -831,7 +830,6 @@ dependencies = [
 [[package]]
 name = "egui-wgpu"
 version = "0.37.0"
-source = "git+https://github.com/emilk/egui?branch=main#fc9d66dda742d722eedaa8684d23f86369cf8e5f"
 dependencies = [
  "ahash",
  "bytemuck",
@@ -850,7 +848,6 @@ dependencies = [
 [[package]]
 name = "egui-winit"
 version = "0.37.0"
-source = "git+https://github.com/emilk/egui?branch=main#fc9d66dda742d722eedaa8684d23f86369cf8e5f"
 dependencies = [
  "accesskit_winit",
  "arboard",
@@ -874,7 +871,8 @@ dependencies = [
 [[package]]
 name = "egui_glow"
 version = "0.37.0"
-source = "git+https://github.com/emilk/egui?branch=main#fc9d66dda742d722eedaa8684d23f86369cf8e5f"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9275ca5cc35a6b7c94e0e8cedf22542f66cb0cf45ed8ab2657c78ff49fec7268"
 dependencies = [
  "bytemuck",
  "egui",
@@ -887,7 +885,8 @@ dependencies = [
 [[package]]
 name = "egui_system_font_provider"
 version = "0.37.0"
-source = "git+https://github.com/emilk/egui?branch=main#fc9d66dda742d722eedaa8684d23f86369cf8e5f"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6f2a2fdfe3c05dd9f691d2b1388b2312d6dce1af502f217c22136d22d9bd76f6"
 dependencies = [
  "epaint",
  "fontique",
@@ -907,7 +906,6 @@ checksum = "0e9c71c2167ca323c882b99918929403426e2373ea17242ff5653e0d5e1058be"
 [[package]]
 name = "emath"
 version = "0.37.0"
-source = "git+https://github.com/emilk/egui?branch=main#fc9d66dda742d722eedaa8684d23f86369cf8e5f"
 dependencies = [
  "bytemuck",
 ]
@@ -942,7 +940,6 @@ dependencies = [
 [[package]]
 name = "epaint"
 version = "0.37.0"
-source = "git+https://github.com/emilk/egui?branch=main#fc9d66dda742d722eedaa8684d23f86369cf8e5f"
 dependencies = [
  "ahash",
  "bytemuck",
@@ -967,7 +964,6 @@ dependencies = [
 [[package]]
 name = "epaint_default_fonts"
 version = "0.37.0"
-source = "git+https://github.com/emilk/egui?branch=main#fc9d66dda742d722eedaa8684d23f86369cf8e5f"
 
 [[package]]
 name = "equivalent"
@@ -1093,9 +1089,9 @@ dependencies = [
 
 [[package]]
 name = "fontique"
-version = "0.12.0"
+version = "0.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bbf1df16263783918b7da396077521f92b729ef7c429444dfcf03581f1448b77"
+checksum = "6688bc1294fe7117d788937b6c53480169b29c566954af490830d4c09da9516a"
 dependencies = [
  "hashbrown 0.17.1",
  "linebender_resource_handle",
