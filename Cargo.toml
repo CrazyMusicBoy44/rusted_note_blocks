@@ -1,4 +1,4 @@
 [workspace]
 resolver = "3"
-members = ["crates/rusted_note_blocks_core", "crates/rusted_note_blocks_ui"]
+members = ["crates/rusted_note_blocks_core", "crates/rusted_note_blocks_desktop", "crates/rusted_note_blocks_ui"]
 

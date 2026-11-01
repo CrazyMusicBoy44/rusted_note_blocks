@@ -1,0 +1,8 @@
+[package]
+name = "rusted_note_blocks_desktop"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+eframe = "0.37.0"
+rusted_note_blocks_ui = { version = "0.1.0", path = "../rusted_note_blocks_ui" }
