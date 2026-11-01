@@ -1,7 +1,10 @@
-use std::{fmt, ops::{Add, Sub}};
+use std::{
+    fmt,
+    ops::{Add, Sub},
+};
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default)]
-pub struct U8F8 (pub u16);
+pub struct U8F8(pub u16);
 
 impl U8F8 {
     pub fn to_f32(self) -> f32 {
@@ -55,9 +58,8 @@ impl Add<u8> for U8F8 {
     }
 }
 
-
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default)]
-pub struct U0F16 (pub u16);
+pub struct U0F16(pub u16);
 
 impl U0F16 {
     pub fn to_f32(self) -> f32 {
@@ -76,4 +78,3 @@ impl From<f32> for U0F16 {
         U0F16((n * 65536.0) as u16)
     }
 }
-

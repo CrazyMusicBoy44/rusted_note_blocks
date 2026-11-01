@@ -6,7 +6,6 @@ pub enum NoteType {
     Custom,
 }
 
-
 #[derive(Debug, PartialEq, Clone)]
 pub struct Note {
     pub note_type: NoteType,
@@ -15,6 +14,4 @@ pub struct Note {
     pub pitch: U8F8,
 }
 
-impl Note {
-
-}
+impl Note {}

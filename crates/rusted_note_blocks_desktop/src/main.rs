@@ -1,7 +1,11 @@
 use rusted_note_blocks_ui::ui;
 
 fn main() -> eframe::Result {
-    eframe::run_native("Rusted Note Blocks Desktop", eframe::NativeOptions::default(), Box::new(|cc| Ok(Box::new(RustedNoteBlocksDesktop::new(cc)))))
+    eframe::run_native(
+        "Rusted Note Blocks Desktop",
+        eframe::NativeOptions::default(),
+        Box::new(|cc| Ok(Box::new(RustedNoteBlocksDesktop::new(cc)))),
+    )
 }
 
 struct RustedNoteBlocksDesktop {
@@ -10,7 +14,9 @@ struct RustedNoteBlocksDesktop {
 
 impl RustedNoteBlocksDesktop {
     pub fn new(cc: &eframe::CreationContext<'_>) -> Self {
-        Self { ui: ui::RustedNoteBlocksApp::new(&cc.egui_ctx) }
+        Self {
+            ui: ui::RustedNoteBlocksApp::new(&cc.egui_ctx),
+        }
     }
 }
 
