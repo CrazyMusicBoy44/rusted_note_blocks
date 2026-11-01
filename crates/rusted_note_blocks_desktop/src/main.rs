@@ -10,12 +10,12 @@ struct RustedNoteBlocksDesktop {
 
 impl RustedNoteBlocksDesktop {
     pub fn new(cc: &eframe::CreationContext<'_>) -> Self {
-        Self { ui: ui::RustedNoteBlocksApp { } }
+        Self { ui: ui::RustedNoteBlocksApp::new(&cc.egui_ctx) }
     }
 }
 
 impl eframe::App for RustedNoteBlocksDesktop {
-    fn ui(&mut self, ui: &mut eframe::egui::Ui, frame: &mut eframe::Frame) {
+    fn ui(&mut self, ui: &mut eframe::egui::Ui, _frame: &mut eframe::Frame) {
         ui::RustedNoteBlocksApp::ui(&mut self.ui, ui);
     }
 }
