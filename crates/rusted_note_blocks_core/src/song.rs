@@ -16,11 +16,6 @@ pub struct Song {
 
 impl Song {
     pub fn get_note(&self, (tick, layer): (i32, i32)) -> Option<Note> {
-        let maybe_column: Option<&SmallVec<[Note; 32]>> = self.notes.get(&tick);
-        if let Some(column) = maybe_column {
-            column.get(layer as usize).copied()
-        } else {
-            None
-        }
+        self.notes.get(&tick)?.get(layer as usize).copied()
     }
 }
