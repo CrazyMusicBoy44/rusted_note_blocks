@@ -1,5 +1,7 @@
+use rusted_note_blocks_core::song::Song;
 pub struct RustedNoteBlocksApp {
     viewpoint: egui::Rect,
+    song: Song,
 }
 
 impl RustedNoteBlocksApp {
@@ -9,6 +11,7 @@ impl RustedNoteBlocksApp {
                 egui::pos2(-500.0, -500.0),
                 egui::pos2(500.0, 500.0),
             ),
+            song: Song::default(),
         }
     }
 
