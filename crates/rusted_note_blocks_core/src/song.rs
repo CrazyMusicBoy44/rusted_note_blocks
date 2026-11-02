@@ -1,22 +1,26 @@
 use crate::notes::Note;
-use std::collections::HashMap;
+use std::collections::BTreeMap;
+use smallvec::SmallVec;
 
-pub struct Chunk {
-    notes: [[Option<Note>; 16]; 16], // Each inner array is a column of notes
-}
 
+#[derive(Default)]
 pub struct SongMetadata {
     name: String,
 }
 
+#[derive(Default)]
 pub struct Song {
     metadata: SongMetadata,
-    chunks: HashMap<i32, HashMap<i32, Chunk>>, // Each inner array is a column of chunks
+    notes: BTreeMap<i32, SmallVec<[Note; 32]>>
 }
 
 impl Song {
-    pub fn add_chunk(&mut self, (x, y): (i32, i32), chunk: Chunk) {
-        let column = self.chunks.entry(x).or_default();
-        column.insert(y, chunk);
+    pub fn get_note(&self, (tick, layer): (i32, i32)) -> Option<Note> {
+        let maybe_column: Option<&SmallVec<[Note; 32]>> = self.notes.get(&tick);
+        if let Some(column) = maybe_column {
+            column.get(layer as usize).copied()
+        } else {
+            None
+        }
     }
 }

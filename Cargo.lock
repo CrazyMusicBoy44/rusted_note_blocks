@@ -2701,6 +2701,9 @@ dependencies = [
 [[package]]
 name = "rusted_note_blocks_core"
 version = "0.1.0"
+dependencies = [
+ "smallvec",
+]
 
 [[package]]
 name = "rusted_note_blocks_desktop"
