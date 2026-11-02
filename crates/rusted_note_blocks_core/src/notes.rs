@@ -13,6 +13,7 @@ pub struct Note {
     pub sample_index: u32,
     pub volume: U0F16,
     pub pitch: U8F8,
+    pub pan: i8, // -100 to 100
 }
 
 impl Note {}
