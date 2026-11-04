@@ -1,3 +1,22 @@
+fn nbs_number<T: FromLittleEndianBytes>(bytes: &[u8], starting_index: &mut usize) -> io::Result<T> {
+    let end = *starting_index + T::SIZE;
+
+    let slice = bytes.get(*starting_index..end).ok_or_else(|| {
+        io::Error::new(
+            io::ErrorKind::UnexpectedEof,
+            format!(
+                "Unexpected end of file while parsing nbs number {}",
+                std::any::type_name::<T>()
+            ),
+        )
+    })?;
+
+    let val = T::from_little_endian_slice(slice)?;
+
+    *starting_index = end;
+
+    Ok(val)
+}
 
 trait FromLittleEndianBytes: Sized {
     const SIZE: usize = std::mem::size_of::<Self>();
