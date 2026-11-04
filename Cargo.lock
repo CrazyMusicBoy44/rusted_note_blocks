@@ -2710,6 +2710,7 @@ name = "rusted_note_blocks_desktop"
 version = "0.1.0"
 dependencies = [
  "eframe",
+ "rusted_note_blocks_core",
  "rusted_note_blocks_ui",
 ]
 
