@@ -1,7 +1,6 @@
 use crate::notes::Note;
-use std::collections::BTreeMap;
 use smallvec::SmallVec;
-
+use std::collections::BTreeMap;
 
 #[derive(Default)]
 pub struct SongMetadata {
@@ -11,7 +10,7 @@ pub struct SongMetadata {
 #[derive(Default)]
 pub struct Song {
     metadata: SongMetadata,
-    notes: BTreeMap<i32, SmallVec<[Note; 32]>>
+    notes: BTreeMap<i32, SmallVec<[Note; 32]>>,
 }
 
 impl Song {
