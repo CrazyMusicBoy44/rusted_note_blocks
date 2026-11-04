@@ -18,6 +18,28 @@ fn nbs_number<T: FromLittleEndianBytes>(bytes: &[u8], starting_index: &mut usize
     Ok(val)
 }
 
+fn nbs_string(bytes: &[u8], starting_index: &mut usize) -> io::Result<String> {
+    let len: i32 = nbs_number(bytes, starting_index)?;
+
+    let len = usize::try_from(len).map_err(|_| {
+        io::Error::new(io::ErrorKind::InvalidData, "NBS String length was negative")
+    })?;
+
+    let end = *starting_index + len;
+
+    let slice = bytes.get(*starting_index..end).ok_or_else(|| {
+        io::Error::new(
+            io::ErrorKind::UnexpectedEof,
+            "Unexpected end of file while reading NBS string",
+        )
+    })?;
+
+    *starting_index = end;
+
+    String::from_utf8(slice.to_vec())
+        .map_err(|_| io::Error::new(io::ErrorKind::InvalidData, "NBS String data is not valid"))
+}
+
 trait FromLittleEndianBytes: Sized {
     const SIZE: usize = std::mem::size_of::<Self>();
     fn from_little_endian_slice(slice: &[u8]) -> io::Result<Self>;
