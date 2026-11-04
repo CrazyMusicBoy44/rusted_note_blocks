@@ -66,7 +66,7 @@ impl U0F16 {
         self.0 as f32 / 65536.0
     }
     pub fn from_nbs_velocity(velocity: i8) -> Self {
-        Self (((velocity as u32 * 65535) / 100) as u16)
+        Self(((velocity as u32 * 65535) / 100) as u16)
     }
     pub fn to_nbs_velocity(&self) -> i8 {
         ((self.0 as u32 * 100) / 65535) as i8

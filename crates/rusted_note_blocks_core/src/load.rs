@@ -1,4 +1,8 @@
-use crate::{song::Song, notes::{Note, NoteType}, number_types::{U0F16, U8F8}};
+use crate::{
+    notes::{Note, NoteType},
+    number_types::{U0F16, U8F8},
+    song::Song,
+};
 use std::{fs, io, num::NonZeroU16};
 
 pub fn load_from_nbs(filename: String) -> io::Result<Song> {
@@ -15,8 +19,8 @@ pub fn load_from_nbs(filename: String) -> io::Result<Song> {
     let signed_vanilla_instrument_count: i8 = nbs_number(&file_contents, &mut index)?;
     let vanilla_instrument_count: u8 = if signed_vanilla_instrument_count < 0 {
         return Err(io::Error::new(
-                io::ErrorKind::InvalidData,
-                "Vanilla instrument count is negative",
+            io::ErrorKind::InvalidData,
+            "Vanilla instrument count is negative",
         ));
     } else {
         signed_vanilla_instrument_count as u8
@@ -61,9 +65,8 @@ pub fn load_from_nbs(filename: String) -> io::Result<Song> {
                 velocity: nbs_number(&file_contents, &mut index)?,
                 pan: nbs_number(&file_contents, &mut index)?,
                 pitch: nbs_number(&file_contents, &mut index)?,
-            }.to_note(vanilla_instrument_count);
-
-            
+            }
+            .to_note(vanilla_instrument_count);
         }
     }
 
