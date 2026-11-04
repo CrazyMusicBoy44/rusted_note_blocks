@@ -1,3 +1,29 @@
+struct NBSNote {
+    instrument: u8,
+    key: i8,
+    velocity: i8,
+    pan: u8,
+    pitch: i16,
+}
+
+impl NBSNote {
+    fn to_note(&self, vanilla_instrument_count: u8) -> Note {
+        let (note_type, instrument) = if self.instrument <= vanilla_instrument_count {
+            (NoteType::Vanilla, self.instrument)
+        } else {
+            (NoteType::Custom, self.instrument - vanilla_instrument_count)
+        };
+
+        Note {
+            note_type: note_type,
+            sample_index: NonZeroU16::new(instrument as u16 + 1).unwrap(),
+            volume: U0F16::from_nbs_velocity(self.velocity),
+            pitch: U8F8::default(),
+            pan: (i16::from(self.pan) - 100) as i8,
+        }
+    }
+}
+
 fn nbs_number<T: FromLittleEndianBytes>(bytes: &[u8], starting_index: &mut usize) -> io::Result<T> {
     let end = *starting_index + T::SIZE;
 
