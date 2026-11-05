@@ -3,9 +3,9 @@ use crate::{
     number_types::{U0F16, U8F8},
     song::{Song, SongMetadata},
 };
-use std::{fs, io, num::NonZeroU16};
-use std::collections::BTreeMap;
 use smallvec::SmallVec;
+use std::collections::BTreeMap;
+use std::{fs, io, num::NonZeroU16};
 
 pub fn load_from_nbs(filename: String) -> io::Result<Song> {
     let file_contents = fs::read(filename)?;
@@ -77,9 +77,7 @@ pub fn load_from_nbs(filename: String) -> io::Result<Song> {
     }
 
     Ok(Song {
-        metadata: SongMetadata {
-            name: song_name,
-        },
+        metadata: SongMetadata { name: song_name },
         notes: Default::default(),
     })
 }

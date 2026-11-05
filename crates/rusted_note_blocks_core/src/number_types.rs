@@ -11,7 +11,7 @@ impl U8F8 {
         self.0 as f32 / 256.0
     }
     pub fn from_key_and_pitch(key: i8, pitch: i16) -> Self {
-        Self ( (((key as i32) * 100 + (pitch as i32)) * 64 / 25) as u16 )
+        Self((((key as i32) * 100 + (pitch as i32)) * 64 / 25) as u16)
     }
 }
 
