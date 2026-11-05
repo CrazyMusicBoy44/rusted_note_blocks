@@ -4,6 +4,8 @@ use crate::{
     song::{Song, SongMetadata},
 };
 use std::{fs, io, num::NonZeroU16};
+use std::collections::BTreeMap;
+use smallvec::SmallVec;
 
 pub fn load_from_nbs(filename: String) -> io::Result<Song> {
     let file_contents = fs::read(filename)?;
@@ -47,7 +49,7 @@ pub fn load_from_nbs(filename: String) -> io::Result<Song> {
     let _loop_start_tick: i16 = nbs_number(&file_contents, &mut index)?;
 
     let mut tick: i16 = -1;
-
+    let mut grid: BTreeMap<i32, SmallVec<[Note; 32]>> = BTreeMap::new();
 
     loop {
         match nbs_number(&file_contents, &mut index)? {
