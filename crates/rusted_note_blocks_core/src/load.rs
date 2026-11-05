@@ -57,12 +57,13 @@ pub fn load_from_nbs(filename: String) -> io::Result<Song> {
             val => tick += val,
         }
         let mut layer: i16 = -1;
+        let mut tick_notes: Vec<(i32, Note)> = Vec::new();
         loop {
             match nbs_number(&file_contents, &mut index)? {
                 0 => break,
                 val => layer += val,
             }
-            let _nbs_note: Note = NBSNote {
+            let note: Note = NBSNote {
                 instrument: nbs_number(&file_contents, &mut index)?,
                 key: nbs_number(&file_contents, &mut index)?,
                 velocity: nbs_number(&file_contents, &mut index)?,
@@ -70,7 +71,9 @@ pub fn load_from_nbs(filename: String) -> io::Result<Song> {
                 pitch: nbs_number(&file_contents, &mut index)?,
             }
             .to_note(vanilla_instrument_count);
+            tick_notes.push((layer as i32, note));
         }
+        println!("{:?}", tick_notes);
     }
 
     Ok(Song {

@@ -10,7 +10,7 @@ pub struct SongMetadata {
 #[derive(Default)]
 pub struct Song {
     pub metadata: SongMetadata,
-    pub notes: BTreeMap<i32, SmallVec<[Note; 32]>>,
+    pub notes: BTreeMap<i32, Vec<(i32, Note)>>,
 }
 
 impl Song {
