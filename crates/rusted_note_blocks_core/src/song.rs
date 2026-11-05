@@ -4,13 +4,13 @@ use std::collections::BTreeMap;
 
 #[derive(Default)]
 pub struct SongMetadata {
-    name: String,
+    pub name: String,
 }
 
 #[derive(Default)]
 pub struct Song {
-    metadata: SongMetadata,
-    notes: BTreeMap<i32, SmallVec<[Note; 32]>>,
+    pub metadata: SongMetadata,
+    pub notes: BTreeMap<i32, SmallVec<[Note; 32]>>,
 }
 
 impl Song {
