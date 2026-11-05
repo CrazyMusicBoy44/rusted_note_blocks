@@ -1,11 +1,11 @@
 use crate::notes::Note;
 
-#[derive(Default)]
+#[derive(Default, Clone, Debug)]
 pub struct SongMetadata {
     pub name: String,
 }
 
-#[derive(Default)]
+#[derive(Default, Clone, Debug)]
 pub struct Song {
     pub metadata: SongMetadata,
     pub notes: Vec<Option<Tick>>,
@@ -14,6 +14,7 @@ pub struct Song {
 impl Song {
 }
 
+#[derive(Default, Clone, Debug)]
 pub struct Tick {
     notes: Vec<(u32, Note)>
 }
