@@ -2,9 +2,8 @@ use crate::{
     notes::{Note, NoteType},
     number_types::{U0F16, U8F8},
     song::{Song, SongMetadata},
+    song::Tick
 };
-use smallvec::SmallVec;
-use std::collections::BTreeMap;
 use std::{fs, io, num::NonZeroU16};
 
 pub fn load_from_nbs(filename: String) -> io::Result<Song> {
@@ -49,7 +48,13 @@ pub fn load_from_nbs(filename: String) -> io::Result<Song> {
     let _loop_start_tick: i16 = nbs_number(&file_contents, &mut index)?;
 
     let mut tick: i16 = -1;
-    let mut grid: Vec<Vec<(i32, Note)>> = Vec::with_capacity((song_length + 16) as usize);
+    if song_length < 0 {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            "Song length is negative",
+        ));
+    }
+    let mut grid: Vec<Option<Tick>> = vec![None; (song_length + 16) as usize];
 
     loop {
         match nbs_number(&file_contents, &mut index)? {
@@ -57,7 +62,7 @@ pub fn load_from_nbs(filename: String) -> io::Result<Song> {
             val => tick += val,
         }
         let mut layer: i16 = -1;
-        let mut tick_notes: Vec<(i32, Note)> = Vec::new();
+        let mut tick_notes: Vec<(u32, Note)> = Vec::with_capacity(16);
         loop {
             match nbs_number(&file_contents, &mut index)? {
                 0 => break,
@@ -71,14 +76,14 @@ pub fn load_from_nbs(filename: String) -> io::Result<Song> {
                 pitch: nbs_number(&file_contents, &mut index)?,
             }
             .to_note(vanilla_instrument_count);
-            tick_notes.push((layer as i32, note));
+            tick_notes.push((layer as u32, note));
         }
-        println!("{:?}", tick_notes);
+        grid[tick as usize] = Some(Tick::from_vec(tick_notes));
     }
 
     Ok(Song {
         metadata: SongMetadata { name: song_name },
-        notes: Default::default(),
+        notes: grid,
     })
 }
 
