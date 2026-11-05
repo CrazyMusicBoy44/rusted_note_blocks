@@ -49,7 +49,7 @@ pub fn load_from_nbs(filename: String) -> io::Result<Song> {
     let _loop_start_tick: i16 = nbs_number(&file_contents, &mut index)?;
 
     let mut tick: i16 = -1;
-    let mut grid: BTreeMap<i32, SmallVec<[Note; 32]>> = BTreeMap::new();
+    let mut grid: Vec<Vec<(i32, Note)>> = Vec::new();
 
     loop {
         match nbs_number(&file_contents, &mut index)? {

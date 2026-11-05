@@ -10,11 +10,11 @@ pub struct SongMetadata {
 #[derive(Default)]
 pub struct Song {
     pub metadata: SongMetadata,
-    pub notes: BTreeMap<i32, Vec<(i32, Note)>>,
+    pub notes: Vec<Vec<(i32, Note)>>,
 }
 
 impl Song {
-    pub fn get_note(&self, (tick, layer): (i32, i32)) -> Option<Note> {
-        self.notes.get(&tick)?.get(layer as usize).copied()
-    }
+    // pub fn get_note(&self, (tick, layer): (i32, i32)) -> Option<Note> {
+    //     self.notes.get(&tick)?.get(layer as usize).copied()
+    // }
 }
