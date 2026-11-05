@@ -1,7 +1,7 @@
 use crate::{
     notes::{Note, NoteType},
     number_types::{U0F16, U8F8},
-    song::Song,
+    song::{Song, SongMetadata},
 };
 use std::{fs, io, num::NonZeroU16};
 
@@ -27,7 +27,7 @@ pub fn load_from_nbs(filename: String) -> io::Result<Song> {
     };
     let _song_length: i16 = nbs_number(&file_contents, &mut index)?;
     let _layer_count: i16 = nbs_number(&file_contents, &mut index)?;
-    let _song_name: String = nbs_string(&file_contents, &mut index)?;
+    let song_name: String = nbs_string(&file_contents, &mut index)?;
     let _song_author: String = nbs_string(&file_contents, &mut index)?;
     let _song_original_author: String = nbs_string(&file_contents, &mut index)?;
     let _song_description: String = nbs_string(&file_contents, &mut index)?;
@@ -47,6 +47,7 @@ pub fn load_from_nbs(filename: String) -> io::Result<Song> {
     let _loop_start_tick: i16 = nbs_number(&file_contents, &mut index)?;
 
     let mut tick: i16 = -1;
+
 
     loop {
         match nbs_number(&file_contents, &mut index)? {
@@ -70,7 +71,12 @@ pub fn load_from_nbs(filename: String) -> io::Result<Song> {
         }
     }
 
-    Ok(Song::default())
+    Ok(Song {
+        metadata: SongMetadata {
+            name: song_name,
+        },
+        notes: Default::default(),
+    })
 }
 
 struct NBSNote {
@@ -90,7 +96,7 @@ impl NBSNote {
         };
 
         Note {
-            note_type: note_type,
+            note_type,
             sample_index: NonZeroU16::new(instrument as u16 + 1).unwrap(),
             volume: U0F16::from_nbs_velocity(self.velocity),
             pitch: U8F8::from_key_and_pitch(self.key, self.pitch),
