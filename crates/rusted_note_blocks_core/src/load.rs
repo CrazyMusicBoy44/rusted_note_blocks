@@ -93,7 +93,7 @@ impl NBSNote {
             note_type: note_type,
             sample_index: NonZeroU16::new(instrument as u16 + 1).unwrap(),
             volume: U0F16::from_nbs_velocity(self.velocity),
-            pitch: U8F8::default(),
+            pitch: U8F8::from_key_and_pitch(self.key, self.pitch),
             pan: (i16::from(self.pan) - 100) as i8,
         }
     }
