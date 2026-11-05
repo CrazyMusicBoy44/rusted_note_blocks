@@ -27,7 +27,7 @@ pub fn load_from_nbs(filename: String) -> io::Result<Song> {
     } else {
         signed_vanilla_instrument_count as u8
     };
-    let _song_length: i16 = nbs_number(&file_contents, &mut index)?;
+    let song_length: i16 = nbs_number(&file_contents, &mut index)?;
     let _layer_count: i16 = nbs_number(&file_contents, &mut index)?;
     let song_name: String = nbs_string(&file_contents, &mut index)?;
     let _song_author: String = nbs_string(&file_contents, &mut index)?;
@@ -49,7 +49,7 @@ pub fn load_from_nbs(filename: String) -> io::Result<Song> {
     let _loop_start_tick: i16 = nbs_number(&file_contents, &mut index)?;
 
     let mut tick: i16 = -1;
-    let mut grid: Vec<Vec<(i32, Note)>> = Vec::new();
+    let mut grid: Vec<Vec<(i32, Note)>> = Vec::with_capacity((song_length + 16) as usize);
 
     loop {
         match nbs_number(&file_contents, &mut index)? {
