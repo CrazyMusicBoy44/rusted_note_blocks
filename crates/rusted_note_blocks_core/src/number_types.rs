@@ -7,8 +7,11 @@ use std::{
 pub struct U8F8(pub u16);
 
 impl U8F8 {
-    pub fn to_f32(self) -> f32 {
+    pub fn to_f32(&self) -> f32 {
         self.0 as f32 / 256.0
+    }
+    pub fn from_key_and_pitch(key: i8, pitch: i16) -> Self {
+        Self ( (((key as i32) * 100 + (pitch as i32)) * 64 / 25) as u16 )
     }
 }
 
