@@ -11,17 +11,16 @@ pub struct Song {
     pub notes: Vec<Option<Tick>>,
 }
 
-impl Song {
-}
+impl Song {}
 
 #[derive(Default, Clone, Debug)]
 pub struct Tick {
-    notes: Vec<(u32, Note)>
+    notes: Vec<(u32, Note)>,
 }
 
 impl Tick {
     pub fn from_vec(mut vec: Vec<(u32, Note)>) -> Self {
-        vec.sort_unstable_by_key(|(pos, _)| *pos );
+        vec.sort_unstable_by_key(|(pos, _)| *pos);
         vec.dedup_by_key(|(pos, _)| *pos);
         Self { notes: vec }
     }

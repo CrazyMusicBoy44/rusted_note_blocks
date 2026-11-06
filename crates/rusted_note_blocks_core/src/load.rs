@@ -1,8 +1,8 @@
 use crate::{
     notes::{Note, NoteType},
     number_types::{U0F16, U8F8},
+    song::Tick,
     song::{Song, SongMetadata},
-    song::Tick
 };
 use std::{fs, io, num::NonZeroU16};
 
