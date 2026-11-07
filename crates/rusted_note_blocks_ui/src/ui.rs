@@ -1,6 +1,7 @@
 use rusted_note_blocks_core::{load, song::Song};
 pub struct RustedNoteBlocksApp {
     scene_rect: egui::Rect,
+    scene_rect_bounds: egui::Rect,
     song: Song,
 }
 
@@ -11,6 +12,9 @@ impl RustedNoteBlocksApp {
         )).unwrap_or_default();
         Self {
             scene_rect: egui::Rect::from_min_max(egui::pos2(0.0, 0.0), egui::pos2(30.0, 30.0)),
+            scene_rect_bounds: egui::Rect::from_min_max(
+                egui::pos2(0.0, 0.0),
+                egui::pos2(30.0, 30.0),
             ),
             song,
         }
@@ -20,6 +24,7 @@ impl RustedNoteBlocksApp {
         egui::CentralPanel::default().show(ui, |ui| {
             egui::Scene::new()
                 .zoom_range(0.1..=100.0)
+                .scene_rect_bounds(self.scene_rect_bounds)
                 .show(ui, &mut self.scene_rect, |ui| {
                     ui.label("Hello World");
                 })
