@@ -2,12 +2,12 @@ use rusted_note_blocks_core::{load, song::Song};
 pub struct RustedNoteBlocksApp {
     scene_rect: egui::Rect,
     scene_rect_bounds: egui::Rect,
-    song: Song,
+    _song: Song,
 }
 
 impl RustedNoteBlocksApp {
     pub fn new(_ctx: &egui::Context) -> Self {
-        let song: Song = load::load_from_nbs(String::from(
+        let _song: Song = load::load_from_nbs(String::from(
             "C:\\Users\\Jesse\\AppData\\Local\\Minecraft Note Block Studio\\Songs\\mossplume_marsh.nbs",
         )).unwrap_or_default();
         Self {
@@ -16,7 +16,7 @@ impl RustedNoteBlocksApp {
                 egui::pos2(0.0, 0.0),
                 egui::pos2(30.0, 30.0),
             ),
-            song,
+            _song,
         }
     }
 
