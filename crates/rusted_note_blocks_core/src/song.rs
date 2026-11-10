@@ -11,8 +11,6 @@ pub struct Song {
     pub notes: Vec<Option<Tick>>,
 }
 
-impl Song {}
-
 #[derive(Default, Clone, Debug)]
 pub struct Tick {
     notes: Vec<(u32, Note)>,
@@ -42,3 +40,7 @@ impl Tick {
         &self.notes[start..end]
     }
 }
+
+// struct Instruments {
+//
+// }

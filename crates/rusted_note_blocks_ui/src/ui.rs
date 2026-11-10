@@ -34,3 +34,7 @@ impl RustedNoteBlocksApp {
         });
     }
 }
+
+// struct TextureCache {
+//
+// }
