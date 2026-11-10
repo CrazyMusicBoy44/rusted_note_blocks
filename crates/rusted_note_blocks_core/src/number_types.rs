@@ -8,10 +8,10 @@ pub struct U8F8(pub u16);
 
 impl U8F8 {
     pub fn to_f32(&self) -> f32 {
-        self.0 as f32 / 256.0
+        f32::from(self.0) / 256.0
     }
     pub fn from_key_and_pitch(key: i8, pitch: i16) -> Self {
-        Self((((key as i32) * 100 + (pitch as i32)) * 64 / 25) as u16)
+        Self(((i32::from(key) * 100 + i32::from(pitch)) * 64 / 25) as u16)
     }
 }
 
@@ -23,7 +23,7 @@ impl fmt::Debug for U8F8 {
 
 impl From<u8> for U8F8 {
     fn from(n: u8) -> Self {
-        U8F8(n as u16 * 256)
+        U8F8(u16::from(n) * 256)
     }
 }
 
@@ -43,7 +43,7 @@ impl Sub for U8F8 {
 impl Sub<u8> for U8F8 {
     type Output = Self;
     fn sub(self, other: u8) -> Self::Output {
-        U8F8(self.0 - other as u16 * 256)
+        U8F8(self.0 - u16::from(other) * 256)
     }
 }
 
@@ -57,7 +57,7 @@ impl Add for U8F8 {
 impl Add<u8> for U8F8 {
     type Output = Self;
     fn add(self, other: u8) -> Self::Output {
-        U8F8(self.0 + other as u16 * 256)
+        U8F8(self.0 + u16::from(other) * 256)
     }
 }
 
@@ -66,13 +66,13 @@ pub struct U0F16(pub u16);
 
 impl U0F16 {
     pub fn to_f32(&self) -> f32 {
-        self.0 as f32 / 65536.0
+        f32::from(self.0) / 65536.0
     }
     pub fn from_nbs_velocity(velocity: i8) -> Self {
         Self(((velocity as u32 * 65535) / 100) as u16)
     }
     pub fn to_nbs_velocity(&self) -> i8 {
-        ((self.0 as u32 * 100) / 65535) as i8
+        ((u32::from(self.0) * 100) / 65535) as i8
     }
 }
 

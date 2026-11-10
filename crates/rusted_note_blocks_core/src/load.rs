@@ -33,7 +33,7 @@ pub fn load_from_nbs(filename: String) -> io::Result<Song> {
     let _song_original_author: String = nbs_string(&file_contents, &mut index)?;
     let _song_description: String = nbs_string(&file_contents, &mut index)?;
     let raw_song_tempo: i16 = nbs_number(&file_contents, &mut index)?;
-    let _song_tempo: f32 = raw_song_tempo as f32 / 100.0;
+    let _song_tempo: f32 = f32::from(raw_song_tempo) / 100.0;
     let _auto_saving: i8 = nbs_number(&file_contents, &mut index)?;
     let _auto_saving_interval: i8 = nbs_number(&file_contents, &mut index)?;
     let _time_signature: i8 = nbs_number(&file_contents, &mut index)?;
@@ -105,7 +105,7 @@ impl NBSNote {
 
         Note {
             note_type,
-            sample_index: NonZeroU16::new(instrument as u16 + 1).unwrap(),
+            sample_index: NonZeroU16::new(u16::from(instrument) + 1).unwrap(),
             volume: U0F16::from_nbs_velocity(self.velocity),
             pitch: U8F8::from_key_and_pitch(self.key, self.pitch),
             pan: (i16::from(self.pan) - 100) as i8,
