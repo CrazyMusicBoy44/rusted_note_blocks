@@ -9,7 +9,7 @@ pub enum NoteType {
     Custom,
 }
 
-#[derive(Debug, PartialEq, Clone, Copy)]
+#[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub struct Note {
     pub note_type: NoteType,
     pub sample_index: NonZeroU16,
