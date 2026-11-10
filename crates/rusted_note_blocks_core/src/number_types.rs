@@ -68,7 +68,7 @@ impl U0F16 {
     pub fn to_f32(&self) -> f32 {
         f32::from(self.0) / 65536.0
     }
-    pub fn from_nbs_velocity(velocity: i8) -> Self {
+    pub const fn from_nbs_velocity(velocity: i8) -> Self {
         Self(((velocity as u32 * 65535) / 100) as u16)
     }
     pub fn to_nbs_velocity(&self) -> i8 {
