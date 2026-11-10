@@ -26,8 +26,16 @@ impl RustedNoteBlocksApp {
                 .zoom_range(0.1..=1024.0)
                 // .scene_rect_bounds(self.scene_rect_bounds)
                 .show(ui, &mut self.scene_rect, |ui| {
-                    ui.painter().rect_filled(self.scene_rect_bounds, egui::CornerRadius::from(1), egui::Color32::PLACEHOLDER);
-                    ui.painter().rect_filled(egui::Rect::from_min_max(egui::pos2(0.0, 0.0), egui::pos2(1.0, 1.0)), egui::CornerRadius::ZERO, egui::Color32::RED);
+                    ui.painter().rect_filled(
+                        self.scene_rect_bounds,
+                        egui::CornerRadius::from(1),
+                        egui::Color32::PLACEHOLDER,
+                    );
+                    ui.painter().rect_filled(
+                        egui::Rect::from_min_max(egui::pos2(0.0, 0.0), egui::pos2(1.0, 1.0)),
+                        egui::CornerRadius::ZERO,
+                        egui::Color32::RED,
+                    );
                     ui.label("test");
                     ui.label("test2");
                 })
