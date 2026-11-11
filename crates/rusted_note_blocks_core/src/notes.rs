@@ -5,8 +5,12 @@ use std::num::NonZeroU16;
 #[derive(Debug, Default, PartialEq, Eq, Clone, Copy)]
 pub enum InstrumentType {
     #[default]
-    Vanilla,
-    Custom,
+    Vanilla {
+        index: NonZeroU16,
+    },
+    Custom {
+        index: NonZeroU16,
+    },
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
