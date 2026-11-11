@@ -1,5 +1,5 @@
 use crate::{
-    notes::{InstrumentType, Note},
+    notes::{InstrumentIndex, Note},
     number_types::{U0F16, U8F8},
     song::Tick,
     song::{Song, SongMetadata},
@@ -98,16 +98,16 @@ struct NBSNote {
 impl NBSNote {
     fn to_note(&self, vanilla_instrument_count: u8) -> Note {
         let (note_type, instrument) = if self.instrument <= vanilla_instrument_count {
-            (InstrumentType::Vanilla, self.instrument)
+            (InstrumentIndex::Vanilla, self.instrument)
         } else {
             (
-                InstrumentType::Custom,
+                InstrumentIndex::Custom,
                 self.instrument - vanilla_instrument_count,
             )
         };
 
         Note {
-            instrument_type: note_type,
+            instrument_index: note_type,
             sample_index: NonZeroU16::new(u16::from(instrument) + 1).unwrap(),
             volume: U0F16::from_nbs_velocity(self.velocity),
             pitch: U8F8::from_key_and_pitch(self.key, self.pitch),
