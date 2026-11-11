@@ -1,5 +1,5 @@
 use crate::{
-    notes::{Note, InstrumentType},
+    notes::{InstrumentType, Note},
     number_types::{U0F16, U8F8},
     song::Tick,
     song::{Song, SongMetadata},
@@ -100,7 +100,10 @@ impl NBSNote {
         let (note_type, instrument) = if self.instrument <= vanilla_instrument_count {
             (InstrumentType::Vanilla, self.instrument)
         } else {
-            (InstrumentType::Custom, self.instrument - vanilla_instrument_count)
+            (
+                InstrumentType::Custom,
+                self.instrument - vanilla_instrument_count,
+            )
         };
 
         Note {
