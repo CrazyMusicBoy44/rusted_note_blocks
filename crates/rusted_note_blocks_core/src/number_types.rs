@@ -4,6 +4,7 @@ use std::{
 };
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default)]
+#[must_use]
 pub struct U8F8(pub u16);
 
 impl U8F8 {
@@ -62,6 +63,7 @@ impl Add<u8> for U8F8 {
 }
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default)]
+#[must_use]
 pub struct U0F16(pub u16);
 
 impl U0F16 {
