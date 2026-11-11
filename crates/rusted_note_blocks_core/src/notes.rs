@@ -4,7 +4,6 @@ use std::num::NonZeroU16;
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum InstrumentType {
-    #[default]
     Vanilla {
         index: NonZeroU16,
     },
