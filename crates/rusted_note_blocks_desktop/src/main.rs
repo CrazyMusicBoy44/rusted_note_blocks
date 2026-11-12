@@ -8,15 +8,15 @@ fn main() -> eframe::Result {
     eframe::run_native(
         "Rusted Note Blocks Desktop",
         eframe::NativeOptions::default(),
-        Box::new(|cc| Ok(Box::new(RustedNoteBlocksDesktop::new(cc)))),
+        Box::new(|cc| Ok(Box::new(RustedNoteBlocksDesktopApp::new(cc)))),
     )
 }
 
-struct RustedNoteBlocksDesktop {
+struct RustedNoteBlocksDesktopApp {
     ui: ui::RustedNoteBlocksApp,
 }
 
-impl RustedNoteBlocksDesktop {
+impl RustedNoteBlocksDesktopApp {
     pub fn new(cc: &eframe::CreationContext<'_>) -> Self {
         Self {
             ui: ui::RustedNoteBlocksApp::new(&cc.egui_ctx),
@@ -24,7 +24,7 @@ impl RustedNoteBlocksDesktop {
     }
 }
 
-impl eframe::App for RustedNoteBlocksDesktop {
+impl eframe::App for RustedNoteBlocksDesktopApp {
     fn ui(&mut self, ui: &mut eframe::egui::Ui, _frame: &mut eframe::Frame) {
         ui::RustedNoteBlocksApp::ui(&mut self.ui, ui);
     }
