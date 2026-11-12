@@ -103,10 +103,8 @@ impl NBSNote {
             }
         } else {
             InstrumentIndex::Custom {
-                index: NonZeroU16::new(
-                    u16::from(self.instrument - vanilla_instrument_count) + 1,
-                )
-                .unwrap(),
+                index: NonZeroU16::new(u16::from(self.instrument - vanilla_instrument_count) + 1)
+                    .unwrap(),
             }
         };
 
