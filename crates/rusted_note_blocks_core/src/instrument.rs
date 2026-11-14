@@ -1,10 +1,11 @@
 use crate::notes::{InstrumentIndex};
+use std::borrow::Cow;
 
 #[derive(Clone, Debug)]
 pub struct Instrument {
     name: String,
     pitch_center: f32,
-    raw_image: Vec<u8>,
+    raw_image: Cow<'static, [u8]>,
 }
 
 impl Instrument {}
@@ -49,7 +50,7 @@ macro_rules! include_vanilla_instrument {
         Instrument {
             name: String::from($name),
             pitch_center: $pitch,
-            raw_image: Vec::from(include_bytes!(concat!(
+            raw_image: Cow::Borrowed(include_bytes!(concat!(
                 "../../../assets/vanilla_instruments/",
                 $file,
                 ".png"
