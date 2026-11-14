@@ -1,3 +1,4 @@
+use crate::instrument::{Instrument, Instruments};
 use crate::notes::Note;
 
 #[derive(Default, Clone, Debug)]
@@ -9,6 +10,7 @@ pub struct SongMetadata {
 pub struct Song {
     pub metadata: SongMetadata,
     pub notes: Vec<Option<Tick>>,
+    pub instruments: Instruments,
 }
 
 #[derive(Default, Clone, Debug)]
