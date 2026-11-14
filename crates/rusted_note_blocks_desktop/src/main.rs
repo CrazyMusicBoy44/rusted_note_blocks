@@ -2,11 +2,15 @@ use rusted_note_blocks_core::load;
 use rusted_note_blocks_ui::ui;
 
 fn main() -> eframe::Result {
-    let _ = load::load_from_nbs(include_bytes!("C:\\Users\\Jesse\\AppData\\Local\\Minecraft Note Block Studio\\Songs\\mossplume_marsh.nbs"));
+    let _ = load::load_from_nbs(include_bytes!(
+        "C:\\Users\\Jesse\\AppData\\Local\\Minecraft Note Block Studio\\Songs\\mossplume_marsh.nbs"
+    ));
     eframe::run_native(
         "Rusted Note Blocks Desktop",
         eframe::NativeOptions::default(),
-        Box::new(|creation_context| Ok(Box::new(RustedNoteBlocksDesktopApp::new(creation_context)))),
+        Box::new(|creation_context| {
+            Ok(Box::new(RustedNoteBlocksDesktopApp::new(creation_context)))
+        }),
     )
 }
 

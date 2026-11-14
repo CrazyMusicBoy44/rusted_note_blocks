@@ -1,16 +1,14 @@
 use crate::{
+    instrument::Instruments,
     notes::{InstrumentIndex, Note},
     number_types::{U0F16, U8F8},
     song::{Song, SongMetadata, Tick},
-    instrument::Instruments,
 };
 use std::{fs, io, num::NonZeroU16};
 
 pub fn load_from_nbs(bytes: &[u8]) -> io::Result<Song> {
     let mut index = 0;
-    if nbs_number::<i16>(bytes, &mut index)? != 0
-        || nbs_number::<i8>(bytes, &mut index)? < 4
-    {
+    if nbs_number::<i16>(bytes, &mut index)? != 0 || nbs_number::<i8>(bytes, &mut index)? < 4 {
         return Err(io::Error::new(
             io::ErrorKind::Unsupported,
             "Only NBS version 4 and above is supported",
