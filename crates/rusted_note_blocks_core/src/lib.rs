@@ -1,3 +1,4 @@
+pub mod instrument;
 pub mod load;
 pub mod notes;
 pub mod number_types;
