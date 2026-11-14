@@ -1,11 +1,11 @@
-use crate::notes::InstrumentIndex;
+use crate::notes::{InstrumentIndex, Note};
 use std::borrow::Cow;
 
 #[derive(Clone, Debug)]
 pub struct Instrument {
-    name: String,
-    pitch_center: f32,
-    raw_image: Cow<'static, [u8]>,
+    pub name: String,
+    pub pitch_center: f32,
+    pub raw_image: Cow<'static, [u8]>,
 }
 
 impl Instrument {}
@@ -23,21 +23,21 @@ impl Default for Instruments {
 }
 
 impl Instruments {
-    fn new() -> Self {
+    pub fn new() -> Self {
         Self {
             vanilla_instruments: vanilla_instruments(),
             custom_instruments: Vec::new(),
         }
     }
 
-    fn from_custom_instruments() -> Self {
+    pub fn from_custom_instruments() -> Self {
         Self {
             vanilla_instruments: vanilla_instruments(),
             custom_instruments: Vec::new(),
         }
     }
 
-    fn get_instrument(&self, instrument_index: InstrumentIndex) -> Option<Instrument> {
+    pub fn get_instrument(&self, instrument_index: InstrumentIndex) -> Option<Instrument> {
         match instrument_index {
             InstrumentIndex::Vanilla { .. } => self
                 .vanilla_instruments
@@ -48,6 +48,10 @@ impl Instruments {
                 .get(instrument_index.to_usize())
                 .cloned(),
         }
+    }
+
+    pub fn get_instrument_from_note(&self, note: Note) -> Option<Instrument> {
+        self.get_instrument(note.instrument_index)
     }
 }
 
