@@ -13,7 +13,7 @@ impl RustedNoteBlocksApp {
                 egui::pos2(0.0, 0.0),
                 egui::pos2(30.0, 30.0),
             ),
-            _song: load::load_from_nbs(String::from(
+            _song: load::load_from_nbs(include_bytes!(
             "C:\\Users\\Jesse\\AppData\\Local\\Minecraft Note Block Studio\\Songs\\mossplume_marsh.nbs",
         )).unwrap_or_default(),
         }
