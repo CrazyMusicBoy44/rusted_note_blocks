@@ -1,4 +1,4 @@
-use crate::notes::{InstrumentIndex};
+use crate::notes::InstrumentIndex;
 use std::borrow::Cow;
 
 #[derive(Clone, Debug)]
@@ -39,8 +39,14 @@ impl Instruments {
 
     fn get_instrument(&self, instrument_index: InstrumentIndex) -> Option<Instrument> {
         match instrument_index {
-            InstrumentIndex::Vanilla { .. } => self.vanilla_instruments.get(instrument_index.to_usize()).cloned(),
-            InstrumentIndex::Custom { .. } => self.custom_instruments.get(instrument_index.to_usize()).cloned(),
+            InstrumentIndex::Vanilla { .. } => self
+                .vanilla_instruments
+                .get(instrument_index.to_usize())
+                .cloned(),
+            InstrumentIndex::Custom { .. } => self
+                .custom_instruments
+                .get(instrument_index.to_usize())
+                .cloned(),
         }
     }
 }
