@@ -39,13 +39,13 @@ impl RustedNoteBlocksApp {
 
                     let mut tick = start_tick;
                     loop {
-                        if tick > end_tick {
+                        if tick >= end_tick {
                             break;
                         };
 
                         let mut layer = start_layer;
                         loop {
-                            if layer > end_layer {
+                            if layer >= end_layer {
                                 break;
                             };
 
