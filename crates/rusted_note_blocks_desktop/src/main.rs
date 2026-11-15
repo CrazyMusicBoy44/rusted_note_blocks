@@ -6,7 +6,9 @@ fn main() -> eframe::Result {
         "Rusted Note Blocks Desktop",
         eframe::NativeOptions::default(),
         Box::new(|creation_context| {
-            Ok(Box::new(RustedNoteBlocksDesktopApp::new(creation_context).unwrap()))
+            Ok(Box::new(
+                RustedNoteBlocksDesktopApp::new(creation_context).unwrap(),
+            ))
         }),
     )
 }
@@ -17,7 +19,9 @@ struct RustedNoteBlocksDesktopApp {
 
 impl RustedNoteBlocksDesktopApp {
     pub fn new(cc: &eframe::CreationContext<'_>) -> Option<Self> {
-        let file = rfd::FileDialog::new().pick_file().and_then(|path| std::fs::read(path).ok());
+        let file = rfd::FileDialog::new()
+            .pick_file()
+            .and_then(|path| std::fs::read(path).ok());
         let song = load::load_from_nbs(&file?).ok()?;
 
         Some(Self {

@@ -21,7 +21,7 @@ impl RustedNoteBlocksApp {
             //     egui::pos2(30.0, 30.0),
             // ),
             song,
-        texture_cache: TextureCache::default(),
+            texture_cache: TextureCache::default(),
         }
     }
 
