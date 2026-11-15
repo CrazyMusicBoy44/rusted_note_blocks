@@ -1,5 +1,4 @@
 use rusted_note_blocks_core::{
-    load,
     notes::{InstrumentIndex, Note},
     song::Song,
 };
