@@ -34,7 +34,19 @@ impl RustedNoteBlocksApp {
                 .zoom_range(0.1..=1024.0)
                 // .scene_rect_bounds(self.scene_rect_bounds)
                 .show(ui, &mut self.scene_rect, |ui| {
-                    Self::try_render_note_at_pos(&self.song, &mut self.texture_cache, 0, 0, ui);
+                    let clip_rect = ui.clip_rect();
+                    let start_tick = clip_rect.min.x.max(0.0);
+                    let end_tick = clip_rect.max.x.ceil() as u32;
+                    let start_layer = clip_rect.min.y.max(0.0);
+                    let end_layer = clip_rect.max.y;
+
+                    let mut tick = start_tick.floor() as u32;
+                    loop {
+                        if tick > end_tick {
+                            break;
+                        };
+
+                    }
                 })
         });
     }
