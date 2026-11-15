@@ -52,10 +52,16 @@ impl RustedNoteBlocksApp {
                                 break;
                             };
 
-                            Self::try_render_note_at_pos(&self.song, &mut self.texture_cache, tick, layer, ui);
+                            Self::try_render_note_at_pos(
+                                &self.song,
+                                &mut self.texture_cache,
+                                tick,
+                                layer,
+                                ui,
+                            );
 
                             layer += 1;
-                        };
+                        }
 
                         tick += 1;
                     }

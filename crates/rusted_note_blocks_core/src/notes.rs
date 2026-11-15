@@ -11,9 +11,7 @@ pub enum InstrumentIndex {
 impl InstrumentIndex {
     pub(crate) fn to_usize(self) -> usize {
         match self {
-            Self::Vanilla { index } | Self::Custom { index } => {
-                usize::from(index.get() - 1)
-            }
+            Self::Vanilla { index } | Self::Custom { index } => usize::from(index.get() - 1),
         }
     }
 }

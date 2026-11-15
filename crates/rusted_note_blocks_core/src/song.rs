@@ -1,7 +1,4 @@
-use crate::{
-    instrument::Instruments,
-    notes::Note,
-};
+use crate::{instrument::Instruments, notes::Note};
 
 #[derive(Default, Clone, Debug)]
 pub struct SongMetadata {
@@ -33,7 +30,9 @@ impl Tick {
         Self { notes: vec }
     }
     pub fn get_note_at(&self, y: u32) -> Option<Note> {
-        self.notes.binary_search_by_key(&y, |(pos, _)| *pos).map_or(None, |index| Some(self.notes[index].1))
+        self.notes
+            .binary_search_by_key(&y, |(pos, _)| *pos)
+            .map_or(None, |index| Some(self.notes[index].1))
     }
     pub fn set_note_at(&mut self, y: u32, note: Note) {
         match self.notes.binary_search_by_key(&y, |(pos, _)| *pos) {
