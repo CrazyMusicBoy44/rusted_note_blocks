@@ -14,16 +14,14 @@ pub struct RustedNoteBlocksApp {
 }
 
 impl RustedNoteBlocksApp {
-    pub fn new(_ctx: &egui::Context) -> Self {
+    pub fn new(_ctx: &egui::Context, song: Song) -> Self {
         Self {
             scene_rect: egui::Rect::from_min_max(egui::pos2(0.0, 0.0), egui::pos2(30.0, 30.0)),
             // scene_rect_bounds: egui::Rect::from_min_max(
             //     egui::pos2(0.0, 0.0),
             //     egui::pos2(30.0, 30.0),
             // ),
-            song: load::load_from_nbs(include_bytes!(
-            "C:\\Users\\Jesse\\AppData\\Local\\Minecraft Note Block Studio\\Songs\\mossplume_marsh.nbs",
-        )).unwrap_or_default(),
+            song,
         texture_cache: TextureCache::default(),
         }
     }
