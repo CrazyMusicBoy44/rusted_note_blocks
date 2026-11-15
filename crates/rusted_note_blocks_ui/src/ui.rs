@@ -42,14 +42,17 @@ impl RustedNoteBlocksApp {
                     );
                     ui.label("test");
                     ui.label("test2");
-                    if let Some(note) = self.song.get_note_at((0,0)) 
-                        && let Some(texture) = self.texture_cache.get_texture_from_note(&note, &self.song, ui) {
-                            ui.add(
-                                egui::Image::new(&texture)
-                            );
-                    };
+                    
                 })
         });
+    }
+
+    fn render_note_at_pos(&mut self, note: &Note, pos: egui::Pos2, ui: &egui::Ui) {
+
+        if let Some(note) = self.song.get_note_at((0,0))
+            && let Some(texture) = self.texture_cache.get_texture_from_note(&note, &self.song, ui) {
+            egui::Image::new(&texture).paint_at(ui, egui::Rect::from_min_max(pos, pos + egui::Vec2::splat(1.0)))
+        };
     }
 }
 
