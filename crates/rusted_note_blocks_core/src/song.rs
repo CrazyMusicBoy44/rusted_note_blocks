@@ -1,5 +1,5 @@
 use crate::{
-    instrument::{Instrument, Instruments},
+    instrument::Instruments,
     notes::Note,
 };
 

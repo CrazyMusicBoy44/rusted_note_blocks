@@ -4,7 +4,7 @@ use crate::{
     number_types::{U0F16, U8F8},
     song::{Song, SongMetadata, Tick},
 };
-use std::{fs, io, num::NonZeroU16};
+use std::{io, num::NonZeroU16};
 
 pub fn load_from_nbs(bytes: &[u8]) -> io::Result<Song> {
     let mut index = 0;
