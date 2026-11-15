@@ -1,4 +1,7 @@
-use crate::{notes::Note,instrument::{Instrument, Instruments}};
+use crate::{
+    instrument::{Instrument, Instruments},
+    notes::Note,
+};
 
 #[derive(Default, Clone, Debug)]
 pub struct SongMetadata {

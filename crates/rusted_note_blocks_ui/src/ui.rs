@@ -1,4 +1,8 @@
-use rusted_note_blocks_core::{load, song::Song, notes::{Note, InstrumentIndex}};
+use rusted_note_blocks_core::{
+    load,
+    notes::{InstrumentIndex, Note},
+    song::Song,
+};
 use std::collections::HashMap;
 
 #[derive()]
@@ -30,30 +34,53 @@ impl RustedNoteBlocksApp {
                 .zoom_range(0.1..=1024.0)
                 // .scene_rect_bounds(self.scene_rect_bounds)
                 .show(ui, &mut self.scene_rect, |ui| {
-                    Self::try_render_note_at_pos(&self.song, &mut self.texture_cache,0,0,ui);
+                    Self::try_render_note_at_pos(&self.song, &mut self.texture_cache, 0, 0, ui);
                 })
         });
     }
 
-    fn try_render_note_at_pos(song: &Song, texture_cache: &mut TextureCache, x: u32, y: u32, ui: &egui::Ui) {
+    fn try_render_note_at_pos(
+        song: &Song,
+        texture_cache: &mut TextureCache,
+        x: u32,
+        y: u32,
+        ui: &egui::Ui,
+    ) {
         if let Some(note) = song.get_note_at(x, y)
-            && let Some(texture) = texture_cache.get_texture_from_note(&note, song, ui) {
-            egui::Image::new(&texture).paint_at(ui, egui::Rect::from_min_max(egui::pos2(x as f32, y as f32), egui::pos2((x+1) as f32, (y+1) as f32)))
+            && let Some(texture) = texture_cache.get_texture_from_note(&note, song, ui)
+        {
+            egui::Image::new(&texture).paint_at(
+                ui,
+                egui::Rect::from_min_max(
+                    egui::pos2(x as f32, y as f32),
+                    egui::pos2((x + 1) as f32, (y + 1) as f32),
+                ),
+            )
         };
     }
 }
 
 #[derive(Default)]
 struct TextureCache {
-    textures: HashMap<InstrumentIndex, egui::TextureHandle>
+    textures: HashMap<InstrumentIndex, egui::TextureHandle>,
 }
 
 impl TextureCache {
-    fn get_texture_from_note(&mut self, note: &Note, song: &Song, ui: &egui::Ui) -> Option<egui::TextureHandle> {
+    fn get_texture_from_note(
+        &mut self,
+        note: &Note,
+        song: &Song,
+        ui: &egui::Ui,
+    ) -> Option<egui::TextureHandle> {
         self.get_texture(note.instrument_index, song, ui)
     }
 
-    fn get_texture(&mut self, instrument_index: InstrumentIndex, song: &Song, ui: &egui::Ui) -> Option<egui::TextureHandle> {
+    fn get_texture(
+        &mut self,
+        instrument_index: InstrumentIndex,
+        song: &Song,
+        ui: &egui::Ui,
+    ) -> Option<egui::TextureHandle> {
         if let Some(texture) = self.textures.get(&instrument_index) {
             return Some(texture.clone());
         };
@@ -61,7 +88,11 @@ impl TextureCache {
             let texture = ui.ctx().load_texture(
                 instrument.name.clone(),
                 png_bytes_to_color_image(&instrument.raw_image).ok()?,
-                egui::TextureOptions { magnification: egui::TextureFilter::Nearest, minification: egui::TextureFilter::Linear, ..Default::default()}
+                egui::TextureOptions {
+                    magnification: egui::TextureFilter::Nearest,
+                    minification: egui::TextureFilter::Linear,
+                    ..Default::default()
+                },
             );
             self.textures.insert(instrument_index, texture.clone());
             return Some(texture);
@@ -81,4 +112,3 @@ fn png_bytes_to_color_image(png_bytes: &[u8]) -> Result<egui::ColorImage, image:
         pixels.as_slice(),
     ))
 }
-
