@@ -13,7 +13,7 @@ pub struct Song {
 }
 
 impl Song {
-    pub fn get_note_at(&self, (x, y): (u32, u32)) -> Option<Note> {
+    pub fn get_note_at(&self, x: u32, y: u32) -> Option<Note> {
         self.notes.get(x as usize)?.as_ref()?.get_note_at(y)
     }
 }
