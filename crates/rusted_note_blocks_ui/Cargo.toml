@@ -6,6 +6,5 @@ edition = "2024"
 [dependencies]
 egui = { version = "0.37.0", features = ["mint"] }
 image = "0.25.10"
-mint = "0.5.9"
 # egui = { git = "https://github.com/emilk/egui", branch = "main" }
 rusted_note_blocks_core = { version = "0.1.0", path = "../rusted_note_blocks_core" }
