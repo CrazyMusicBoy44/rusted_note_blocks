@@ -33,10 +33,7 @@ impl Tick {
         Self { notes: vec }
     }
     pub fn get_note_at(&self, y: u32) -> Option<Note> {
-        match self.notes.binary_search_by_key(&y, |(pos, _)| *pos) {
-            Ok(index) => Some(self.notes[index].1),
-            Err(_) => None,
-        }
+        self.notes.binary_search_by_key(&y, |(pos, _)| *pos).map_or(None, |index| Some(self.notes[index].1))
     }
     pub fn set_note_at(&mut self, y: u32, note: Note) {
         match self.notes.binary_search_by_key(&y, |(pos, _)| *pos) {
