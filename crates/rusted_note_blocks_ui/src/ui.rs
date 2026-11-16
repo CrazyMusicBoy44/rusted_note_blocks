@@ -28,7 +28,7 @@ impl RustedNoteBlocksApp {
     pub fn ui(&mut self, ui: &mut egui::Ui) {
         egui::CentralPanel::default().show(ui, |ui| {
             egui::Scene::new()
-                .zoom_range(2.0..=1024.0)
+                .zoom_range(4.0..=1024.0)
                 // .scene_rect_bounds(self.scene_rect_bounds)
                 .show(ui, &mut self.scene_rect, |ui| {
                     let clip_rect = ui.clip_rect();
