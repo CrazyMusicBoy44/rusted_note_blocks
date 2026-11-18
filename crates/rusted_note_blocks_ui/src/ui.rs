@@ -30,6 +30,7 @@ impl RustedNoteBlocksApp {
             egui::Scene::new()
                 .zoom_range(4.0..=1024.0)
                 // .scene_rect_bounds(self.scene_rect_bounds)
+                .drag_pan_buttons(egui::DragPanButtons::empty())
                 .show(ui, &mut self.scene_rect, |ui| {
                     let clip_rect = ui.clip_rect();
                     let start_tick = clip_rect.min.x.max(0.0).floor() as u32;
