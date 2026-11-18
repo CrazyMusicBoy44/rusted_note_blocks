@@ -37,18 +37,8 @@ impl RustedNoteBlocksApp {
                     let start_layer = clip_rect.min.y.max(0.0).floor() as u32;
                     let end_layer = clip_rect.max.y.ceil() as u32;
 
-                    let mut tick = start_tick;
-                    loop {
-                        if tick >= end_tick {
-                            break;
-                        };
-
-                        let mut layer = start_layer;
-                        loop {
-                            if layer >= end_layer {
-                                break;
-                            };
-
+                    for tick in start_tick..end_tick {
+                        for layer in start_layer..end_layer {
                             Self::try_render_note_at_pos(
                                 &self.song,
                                 &mut self.texture_cache,
@@ -56,11 +46,7 @@ impl RustedNoteBlocksApp {
                                 layer,
                                 ui,
                             );
-
-                            layer += 1;
                         }
-
-                        tick += 1;
                     }
                 })
         });
