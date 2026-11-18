@@ -24,7 +24,7 @@ pub fn load_from_nbs(bytes: &[u8]) -> io::Result<Song> {
         signed_vanilla_instrument_count as u8
     };
     let song_length: i16 = nbs_number(bytes, &mut index)?;
-    let _layer_count: i16 = nbs_number(bytes, &mut index)?;
+    let layer_count: i16 = nbs_number(bytes, &mut index)?;
     let song_name: String = nbs_string(bytes, &mut index)?;
     let _song_author: String = nbs_string(bytes, &mut index)?;
     let _song_original_author: String = nbs_string(bytes, &mut index)?;
@@ -78,6 +78,12 @@ pub fn load_from_nbs(bytes: &[u8]) -> io::Result<Song> {
         grid[tick as usize] = Some(Tick::from_vec(tick_notes));
     }
 
+    for _ in 0..layer_count {
+        let _layer_name = nbs_string(bytes, &mut index)?;
+        let _layer_locked: i8 = nbs_number(bytes, &mut index)?;
+        let _layer_volume: i8 = nbs_number(bytes, &mut index)?;
+        let _layer_pan: u8 = nbs_number(bytes, &mut index)?;
+    }
     Ok(Song {
         metadata: SongMetadata { name: song_name },
         notes: grid,
