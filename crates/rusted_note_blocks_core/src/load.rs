@@ -84,6 +84,16 @@ pub fn load_from_nbs(bytes: &[u8]) -> io::Result<Song> {
         let _layer_volume: i8 = nbs_number(bytes, &mut index)?;
         let _layer_pan: u8 = nbs_number(bytes, &mut index)?;
     }
+
+    let custom_instrument_count: u8 = nbs_number(bytes, &mut index)?;
+
+    for _ in 0..custom_instrument_count {
+        let _custom_instrument_name = nbs_string(bytes, &mut index)?;
+        let _custom_instrument_sound_file = nbs_string(bytes, &mut index)?;
+        let _custom_instrument_key: i8 = nbs_number(bytes, &mut index)?;
+        let _custom_instrument_should_press_piano_key: i8 = nbs_number(bytes, &mut index)?;
+    }
+
     Ok(Song {
         metadata: SongMetadata { name: song_name },
         notes: grid,
