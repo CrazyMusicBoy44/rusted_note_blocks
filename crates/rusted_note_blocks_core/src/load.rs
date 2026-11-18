@@ -4,20 +4,52 @@ use crate::{
     number_types::{U0F16, U8F8},
     song::{Song, SongMetadata, Tick},
 };
-use std::{io, num::NonZeroU16};
+use std::num::NonZeroU16;
 
-pub fn load_from_nbs(bytes: &[u8]) -> io::Result<Song> {
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum LoadErrorKind {
+    Unsupported,
+    InvalidData,
+    UnexpectedEof,
+}
+
+#[derive(Debug)]
+pub struct LoadError {
+    pub kind: LoadErrorKind,
+    pub message: String,
+}
+
+impl LoadError {
+    pub fn new(kind: LoadErrorKind, message: impl Into<String>) -> Self {
+        Self {
+            kind,
+            message: message.into(),
+        }
+    }
+}
+
+impl std::fmt::Display for LoadError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.message)
+    }
+}
+
+impl std::error::Error for LoadError {}
+
+pub type LoadResult<T> = Result<T, LoadError>;
+
+pub fn load_from_nbs(bytes: &[u8]) -> LoadResult<Song> {
     let mut index = 0;
     if nbs_number::<i16>(bytes, &mut index)? != 0 || nbs_number::<i8>(bytes, &mut index)? < 4 {
-        return Err(io::Error::new(
-            io::ErrorKind::Unsupported,
+        return Err(LoadError::new(
+            LoadErrorKind::Unsupported,
             "Only NBS version 4 and above is supported",
         ));
     }
     let signed_vanilla_instrument_count: i8 = nbs_number(bytes, &mut index)?;
     let vanilla_instrument_count: u8 = if signed_vanilla_instrument_count < 0 {
-        return Err(io::Error::new(
-            io::ErrorKind::InvalidData,
+        return Err(LoadError::new(
+            LoadErrorKind::InvalidData,
             "Vanilla instrument count is negative",
         ));
     } else {
@@ -46,8 +78,8 @@ pub fn load_from_nbs(bytes: &[u8]) -> io::Result<Song> {
 
     let mut tick: i16 = -1;
     if song_length < 0 {
-        return Err(io::Error::new(
-            io::ErrorKind::InvalidData,
+        return Err(LoadError::new(
+            LoadErrorKind::InvalidData,
             "Song length is negative",
         ));
     }
@@ -131,12 +163,12 @@ impl NBSNote {
     }
 }
 
-fn nbs_number<T: FromLittleEndianBytes>(bytes: &[u8], index: &mut usize) -> io::Result<T> {
+fn nbs_number<T: FromLittleEndianBytes>(bytes: &[u8], index: &mut usize) -> LoadResult<T> {
     let end = *index + T::SIZE;
 
     let slice = bytes.get(*index..end).ok_or_else(|| {
-        io::Error::new(
-            io::ErrorKind::UnexpectedEof,
+        LoadError::new(
+            LoadErrorKind::UnexpectedEof,
             format!(
                 "Unexpected end of file while parsing nbs number {}",
                 std::any::type_name::<T>()
@@ -151,18 +183,18 @@ fn nbs_number<T: FromLittleEndianBytes>(bytes: &[u8], index: &mut usize) -> io::
     Ok(val)
 }
 
-fn nbs_string(bytes: &[u8], starting_index: &mut usize) -> io::Result<String> {
+fn nbs_string(bytes: &[u8], starting_index: &mut usize) -> LoadResult<String> {
     let len: i32 = nbs_number(bytes, starting_index)?;
 
     let len = usize::try_from(len).map_err(|_| {
-        io::Error::new(io::ErrorKind::InvalidData, "NBS String length was negative")
+        LoadError::new(LoadErrorKind::InvalidData, "NBS String length was negative")
     })?;
 
     let end = *starting_index + len;
 
     let slice = bytes.get(*starting_index..end).ok_or_else(|| {
-        io::Error::new(
-            io::ErrorKind::UnexpectedEof,
+        LoadError::new(
+            LoadErrorKind::UnexpectedEof,
             "Unexpected end of file while reading NBS string",
         )
     })?;
@@ -170,22 +202,22 @@ fn nbs_string(bytes: &[u8], starting_index: &mut usize) -> io::Result<String> {
     *starting_index = end;
 
     String::from_utf8(slice.to_vec())
-        .map_err(|_| io::Error::new(io::ErrorKind::InvalidData, "NBS String data is not valid"))
+        .map_err(|_| LoadError::new(LoadErrorKind::InvalidData, "NBS String data is not valid"))
 }
 
 trait FromLittleEndianBytes: Sized {
     const SIZE: usize = std::mem::size_of::<Self>();
-    fn from_little_endian_slice(slice: &[u8]) -> io::Result<Self>;
+    fn from_little_endian_slice(slice: &[u8]) -> LoadResult<Self>;
 }
 
 macro_rules! impl_from_little_endian_bytes {
     ($($t:ty),*) => {
         $(
             impl FromLittleEndianBytes for $t {
-                fn from_little_endian_slice(slice: &[u8]) -> io::Result<Self> {
+                fn from_little_endian_slice(slice: &[u8]) -> LoadResult<Self> {
                     let array: [u8; Self::SIZE] = slice
                         .try_into()
-                        .map_err(|_| io::Error::new(io::ErrorKind::InvalidData, "Failed to parse bytes"))?;
+                        .map_err(|_| LoadError::new(LoadErrorKind::InvalidData, "Failed to parse bytes"))?;
                     Ok(<$t>::from_le_bytes(array))
                 }
             }
