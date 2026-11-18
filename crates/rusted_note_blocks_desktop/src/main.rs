@@ -35,11 +35,3 @@ impl eframe::App for RustedNoteBlocksDesktopApp {
         ui::RustedNoteBlocksApp::ui(&mut self.ui, ui);
     }
 }
-
-fn _test_song_loading() {
-    let testing_song = load::load_from_nbs(include_bytes!(
-        "C:\\Users\\Jesse\\AppData\\Local\\Minecraft Note Block Studio\\Songs\\mossplume_marsh.nbs"
-    ))
-    .unwrap();
-    println!("{}", testing_song.metadata.name);
-}
