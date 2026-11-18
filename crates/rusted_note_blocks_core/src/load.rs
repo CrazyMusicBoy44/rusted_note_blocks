@@ -131,10 +131,10 @@ impl NBSNote {
     }
 }
 
-fn nbs_number<T: FromLittleEndianBytes>(bytes: &[u8], starting_index: &mut usize) -> io::Result<T> {
-    let end = *starting_index + T::SIZE;
+fn nbs_number<T: FromLittleEndianBytes>(bytes: &[u8], index: &mut usize) -> io::Result<T> {
+    let end = *index + T::SIZE;
 
-    let slice = bytes.get(*starting_index..end).ok_or_else(|| {
+    let slice = bytes.get(*index..end).ok_or_else(|| {
         io::Error::new(
             io::ErrorKind::UnexpectedEof,
             format!(
@@ -146,7 +146,7 @@ fn nbs_number<T: FromLittleEndianBytes>(bytes: &[u8], starting_index: &mut usize
 
     let val = T::from_little_endian_slice(slice)?;
 
-    *starting_index = end;
+    *index = end;
 
     Ok(val)
 }
