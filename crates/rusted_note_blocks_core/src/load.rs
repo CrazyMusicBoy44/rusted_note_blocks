@@ -1,5 +1,5 @@
 use crate::{
-    instrument::Instruments,
+    instrument::{Instruments, Instrument},
     notes::{InstrumentIndex, Note},
     number_types::{U0F16, U8F8},
     song::{Song, SongMetadata, Tick},
@@ -119,17 +119,26 @@ pub fn load_from_nbs(bytes: &[u8]) -> LoadResult<Song> {
 
     let custom_instrument_count: u8 = nbs_number(bytes, &mut index)?;
 
+    let mut custom_instruments: Vec<Instrument> = Vec::with_capacity(custom_instrument_count as usize);
+
     for _ in 0..custom_instrument_count {
-        let _custom_instrument_name = nbs_string(bytes, &mut index)?;
+        let custom_instrument_name = nbs_string(bytes, &mut index)?;
         let _custom_instrument_sound_file = nbs_string(bytes, &mut index)?;
-        let _custom_instrument_key: i8 = nbs_number(bytes, &mut index)?;
+        let custom_instrument_key: i8 = nbs_number(bytes, &mut index)?;
         let _custom_instrument_should_press_piano_key: i8 = nbs_number(bytes, &mut index)?;
+
+        let custom_instrument = Instrument {
+            name: custom_instrument_name,
+            pitch_center: custom_instrument_key as f32,
+            raw_image: Default::default(),
+        };
+        custom_instruments.push(custom_instrument);
     }
 
     Ok(Song {
         metadata: SongMetadata { name: song_name },
         notes: grid,
-        instruments: Instruments::new(),
+        instruments: Instruments::from_custom_instruments(custom_instruments),
     })
 }
 
