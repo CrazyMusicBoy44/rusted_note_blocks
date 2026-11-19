@@ -76,6 +76,8 @@ pub fn load_from_nbs(bytes: &[u8]) -> LoadResult<Song> {
     let _max_loop_count: i8 = nbs_number(bytes, &mut index)?;
     let _loop_start_tick: i16 = nbs_number(bytes, &mut index)?;
 
+    let metadata = SongMetadata { name: song_name };
+
     let mut tick: i16 = -1;
     if song_length < 0 {
         return Err(LoadError::new(
@@ -83,7 +85,7 @@ pub fn load_from_nbs(bytes: &[u8]) -> LoadResult<Song> {
             "Song length is negative",
         ));
     }
-    let mut grid: Vec<Option<Tick>> = vec![None; (song_length + 16) as usize];
+    let mut notes: Vec<Option<Tick>> = vec![None; (song_length + 16) as usize];
 
     loop {
         match nbs_number(bytes, &mut index)? {
@@ -107,7 +109,7 @@ pub fn load_from_nbs(bytes: &[u8]) -> LoadResult<Song> {
             .to_note(vanilla_instrument_count);
             tick_notes.push((layer as u32, note));
         }
-        grid[tick as usize] = Some(Tick::from_vec(tick_notes));
+        notes[tick as usize] = Some(Tick::from_vec(tick_notes));
     }
 
     for _ in 0..layer_count {
@@ -135,10 +137,12 @@ pub fn load_from_nbs(bytes: &[u8]) -> LoadResult<Song> {
         custom_instruments.push(custom_instrument);
     }
 
+    let instruments = Instruments::from_custom_instruments(custom_instruments);
+
     Ok(Song {
-        metadata: SongMetadata { name: song_name },
-        notes: grid,
-        instruments: Instruments::from_custom_instruments(custom_instruments),
+        metadata,
+        notes,
+        instruments,
     })
 }
 
