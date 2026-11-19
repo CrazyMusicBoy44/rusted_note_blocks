@@ -47,10 +47,10 @@ impl Instruments {
         }
     }
 
-    pub fn from_custom_instruments() -> Self {
+    pub fn from_custom_instruments(custom_instruments: Vec<Instrument>) -> Self {
         Self {
             vanilla_instruments: vanilla_instruments(),
-            custom_instruments: Vec::new(),
+            custom_instruments,
         }
     }
 
