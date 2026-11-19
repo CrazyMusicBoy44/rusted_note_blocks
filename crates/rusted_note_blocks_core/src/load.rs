@@ -131,7 +131,7 @@ pub fn load_from_nbs(bytes: &[u8]) -> LoadResult<Song> {
 
         let custom_instrument = Instrument {
             name: custom_instrument_name,
-            pitch_center: custom_instrument_key as f32,
+            pitch_center: f32::from(custom_instrument_key),
             raw_image: Default::default(),
         };
         custom_instruments.push(custom_instrument);
