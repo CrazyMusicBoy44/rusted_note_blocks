@@ -5,10 +5,27 @@ use std::borrow::Cow;
 pub struct Instrument {
     pub name: String,
     pub pitch_center: f32,
+    pub raw_image: RawImage,
+}
+
+#[derive(Clone, Debug)]
+pub struct RawImage {
     pub raw_image: Cow<'static, [u8]>,
 }
 
-impl Instrument {}
+impl Default for RawImage {
+    fn default() -> Self {
+        Self {
+            raw_image: Cow::Borrowed(include_bytes!("../../../assets/note_block.png"))
+        }
+    }
+}
+
+impl From<Cow<'static, [u8]>> for RawImage {
+    fn from(value: Cow<'static, [u8]>) -> Self {
+        Self { raw_image: value }
+    }
+}
 
 #[derive(Clone, Debug)]
 pub struct Instruments {
@@ -60,11 +77,11 @@ macro_rules! include_vanilla_instrument {
         Instrument {
             name: String::from($name),
             pitch_center: $pitch,
-            raw_image: Cow::Borrowed(include_bytes!(concat!(
+            raw_image: Cow::Borrowed(&include_bytes!(concat!(
                 "../../../assets/vanilla_instruments/",
                 $file,
                 ".png"
-            ))),
+            ))[..]).into(),
         }
     };
 }
