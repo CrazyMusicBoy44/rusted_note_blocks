@@ -22,10 +22,10 @@ impl RustedNoteBlocksDesktopApp {
         let file = rfd::FileDialog::new()
             .pick_file()
             .and_then(|path| std::fs::read(path).ok());
-        let song = load::load_from_nbs(&file?).ok()?;
+        let song_bytes = load::load_from_nbs(&file?).ok()?;
 
         Some(Self {
-            ui: ui::RustedNoteBlocksApp::new(&cc.egui_ctx, song),
+            ui: ui::RustedNoteBlocksApp::new(&cc.egui_ctx, song_bytes),
         })
     }
 }
