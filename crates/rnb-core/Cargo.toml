@@ -1,5 +1,5 @@
 [package]
-name = "rusted_note_blocks_core"
+name = "rnb-core"
 version = "0.1.0"
 edition = "2024"
 

@@ -1,4 +1,4 @@
-use rusted_note_blocks_core::load;
+use rnb_core::load;
 use rusted_note_blocks_ui::ui;
 
 fn main() -> eframe::Result {

@@ -1,4 +1,4 @@
-use rusted_note_blocks_core::{
+use rnb_core::{
     notes::{InstrumentIndex, Note},
     song::Song,
 };

@@ -3215,6 +3215,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "47b34b781b31e5d73e9fbc8689c70551fd1ade9a19e3e28cfec8580a79290cc4"
 
 [[package]]
+name = "rnb-core"
+version = "0.1.0"
+dependencies = [
+ "smallvec",
+]
+
+[[package]]
 name = "roxmltree"
 version = "0.21.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3245,19 +3252,12 @@ dependencies = [
 ]
 
 [[package]]
-name = "rusted_note_blocks_core"
-version = "0.1.0"
-dependencies = [
- "smallvec",
-]
-
-[[package]]
 name = "rusted_note_blocks_desktop"
 version = "0.1.0"
 dependencies = [
  "eframe",
  "rfd",
- "rusted_note_blocks_core",
+ "rnb-core",
  "rusted_note_blocks_ui",
 ]
 
@@ -3267,7 +3267,7 @@ version = "0.1.0"
 dependencies = [
  "egui",
  "image",
- "rusted_note_blocks_core",
+ "rnb-core",
 ]
 
 [[package]]
