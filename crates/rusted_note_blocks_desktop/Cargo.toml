@@ -8,4 +8,4 @@ eframe = "0.37.0"
 rfd = "0.18.0"
 rnb-core = { version = "0.1.0", path = "../rnb-core" }
 # eframe = { git = "https://github.com/emilk/egui", branch = "main" }
-rusted_note_blocks_ui = { version = "0.1.0", path = "../rusted_note_blocks_ui" }
+rnb-ui = { version = "0.1.0", path = "../rnb-ui" }

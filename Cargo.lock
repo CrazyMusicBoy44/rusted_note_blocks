@@ -3222,6 +3222,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "rnb-ui"
+version = "0.1.0"
+dependencies = [
+ "egui",
+ "image",
+ "rnb-core",
+]
+
+[[package]]
 name = "roxmltree"
 version = "0.21.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3258,16 +3267,7 @@ dependencies = [
  "eframe",
  "rfd",
  "rnb-core",
- "rusted_note_blocks_ui",
-]
-
-[[package]]
-name = "rusted_note_blocks_ui"
-version = "0.1.0"
-dependencies = [
- "egui",
- "image",
- "rnb-core",
+ "rnb-ui",
 ]
 
 [[package]]

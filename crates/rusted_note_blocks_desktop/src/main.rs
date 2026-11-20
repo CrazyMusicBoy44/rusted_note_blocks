@@ -1,5 +1,5 @@
 use rnb_core::load;
-use rusted_note_blocks_ui::ui;
+use rnb_ui::ui;
 
 fn main() -> eframe::Result {
     eframe::run_native(
