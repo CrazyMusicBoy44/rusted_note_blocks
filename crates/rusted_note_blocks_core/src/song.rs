@@ -3,6 +3,9 @@ use crate::{instrument::Instruments, notes::Note};
 #[derive(Default, Clone, Debug)]
 pub struct SongMetadata {
     pub name: String,
+    pub author: String,
+    pub original_author: String,
+    pub description: String,
 }
 
 #[derive(Default, Clone, Debug)]

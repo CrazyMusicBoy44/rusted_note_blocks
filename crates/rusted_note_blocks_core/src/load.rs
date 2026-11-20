@@ -57,10 +57,10 @@ pub fn load_from_nbs(bytes: &[u8]) -> LoadResult<Song> {
     };
     let song_length: i16 = nbs_number(bytes, &mut index)?;
     let layer_count: i16 = nbs_number(bytes, &mut index)?;
-    let song_name: String = nbs_string(bytes, &mut index)?;
-    let _song_author: String = nbs_string(bytes, &mut index)?;
-    let _song_original_author: String = nbs_string(bytes, &mut index)?;
-    let _song_description: String = nbs_string(bytes, &mut index)?;
+    let name: String = nbs_string(bytes, &mut index)?;
+    let author: String = nbs_string(bytes, &mut index)?;
+    let original_author: String = nbs_string(bytes, &mut index)?;
+    let description: String = nbs_string(bytes, &mut index)?;
     let raw_song_tempo: i16 = nbs_number(bytes, &mut index)?;
     let _song_tempo: f32 = f32::from(raw_song_tempo) / 100.0;
     let _auto_saving: i8 = nbs_number(bytes, &mut index)?;
@@ -76,7 +76,12 @@ pub fn load_from_nbs(bytes: &[u8]) -> LoadResult<Song> {
     let _max_loop_count: i8 = nbs_number(bytes, &mut index)?;
     let _loop_start_tick: i16 = nbs_number(bytes, &mut index)?;
 
-    let metadata = SongMetadata { name: song_name };
+    let metadata = SongMetadata {
+        name,
+        author,
+        original_author,
+        description,
+    };
 
     let mut tick: i16 = -1;
     if song_length < 0 {
