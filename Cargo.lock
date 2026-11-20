@@ -3222,6 +3222,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "rnb-desktop"
+version = "0.1.0"
+dependencies = [
+ "eframe",
+ "rfd",
+ "rnb-core",
+ "rnb-ui",
+]
+
+[[package]]
 name = "rnb-ui"
 version = "0.1.0"
 dependencies = [
@@ -3258,16 +3268,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cfcb3a22ef46e85b45de6ee7e79d063319ebb6594faafcf1c225ea92ab6e9b92"
 dependencies = [
  "semver",
-]
-
-[[package]]
-name = "rusted_note_blocks_desktop"
-version = "0.1.0"
-dependencies = [
- "eframe",
- "rfd",
- "rnb-core",
- "rnb-ui",
 ]
 
 [[package]]

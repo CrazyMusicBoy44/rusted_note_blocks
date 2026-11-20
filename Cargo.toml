@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["crates/rnb-core", "crates/rusted_note_blocks_desktop", "crates/rnb-ui"]
+members = ["crates/rnb-core", "crates/rnb-desktop", "crates/rnb-ui"]
 
 [patch.crates-io]
 egui = { path = "../egui/crates/egui" }
