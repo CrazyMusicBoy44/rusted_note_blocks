@@ -5,14 +5,14 @@ use rnb_core::{
 use std::collections::HashMap;
 
 #[derive()]
-pub struct RustedNoteBlocksApp {
+pub struct RustedNoteBlocksUi {
     scene_rect: egui::Rect,
     // scene_rect_bounds: egui::Rect,
     song: Song,
     texture_cache: TextureCache,
 }
 
-impl RustedNoteBlocksApp {
+impl RustedNoteBlocksUi {
     pub fn new(_ctx: &egui::Context, song: Song) -> Self {
         Self {
             scene_rect: egui::Rect::from_min_max(egui::pos2(0.0, 0.0), egui::pos2(30.0, 30.0)),

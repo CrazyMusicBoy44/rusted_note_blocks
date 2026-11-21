@@ -14,7 +14,7 @@ fn main() -> eframe::Result {
 }
 
 struct RustedNoteBlocksDesktopApp {
-    ui: ui::RustedNoteBlocksApp,
+    ui: ui::RustedNoteBlocksUi,
 }
 
 impl RustedNoteBlocksDesktopApp {
@@ -25,13 +25,13 @@ impl RustedNoteBlocksDesktopApp {
         let song_bytes = load::load_from_nbs(&file?).ok()?;
 
         Some(Self {
-            ui: ui::RustedNoteBlocksApp::new(&cc.egui_ctx, song_bytes),
+            ui: ui::RustedNoteBlocksUi::new(&cc.egui_ctx, song_bytes),
         })
     }
 }
 
 impl eframe::App for RustedNoteBlocksDesktopApp {
     fn ui(&mut self, ui: &mut eframe::egui::Ui, _frame: &mut eframe::Frame) {
-        ui::RustedNoteBlocksApp::ui(&mut self.ui, ui);
+        ui::RustedNoteBlocksUi::ui(&mut self.ui, ui);
     }
 }
