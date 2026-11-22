@@ -1,1 +1,2 @@
-pub mod ui;
+mod ui;
+pub use ui::RustedNoteBlocksUi;

@@ -22,7 +22,7 @@ impl RustedNoteBlocksUi {
         }
     }
 
-    pub fn ui(&mut self, ui: &mut egui::Ui) {
+    pub fn show(&mut self, ui: &mut egui::Ui) {
         egui::CentralPanel::default().show(ui, |ui| {
             egui::Scene::new()
                 .zoom_range(4.0..=1024.0)

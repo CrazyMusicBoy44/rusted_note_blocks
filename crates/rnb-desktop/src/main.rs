@@ -1,5 +1,5 @@
 use rnb_core::load;
-use rnb_ui::ui;
+use rnb_ui::RustedNoteBlocksUi;
 
 fn main() -> eframe::Result {
     eframe::run_native(
@@ -14,7 +14,7 @@ fn main() -> eframe::Result {
 }
 
 struct RustedNoteBlocksDesktopApp {
-    ui: ui::RustedNoteBlocksUi,
+    app_ui: RustedNoteBlocksUi,
 }
 
 impl RustedNoteBlocksDesktopApp {
@@ -25,13 +25,13 @@ impl RustedNoteBlocksDesktopApp {
         let song_bytes = load::load_from_nbs(&file?).ok()?;
 
         Some(Self {
-            ui: ui::RustedNoteBlocksUi::new(&cc.egui_ctx, song_bytes),
+            app_ui: RustedNoteBlocksUi::new(&cc.egui_ctx, song_bytes),
         })
     }
 }
 
 impl eframe::App for RustedNoteBlocksDesktopApp {
     fn ui(&mut self, ui: &mut eframe::egui::Ui, _frame: &mut eframe::Frame) {
-        ui::RustedNoteBlocksUi::ui(&mut self.ui, ui);
+        self.app_ui.show(ui);
     }
 }
