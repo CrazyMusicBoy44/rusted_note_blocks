@@ -1,2 +1,2 @@
 mod ui;
-pub use ui::RustedNoteBlocksUi;
+pub use ui::RNBUi;
