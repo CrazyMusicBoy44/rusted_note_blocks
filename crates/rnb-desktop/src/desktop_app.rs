@@ -1,7 +1,7 @@
 use rnb_core::load;
 use rnb_ui::RNBUi;
 
-pub(crate) struct RNBDesktopApp {
+pub struct RNBDesktopApp {
     app_ui: RNBUi,
 }
 
@@ -24,7 +24,7 @@ impl eframe::App for RNBDesktopApp {
     }
 }
 
-pub(crate) fn run() -> eframe::Result {
+pub fn run() -> eframe::Result {
     eframe::run_native(
         "Rusted Note Blocks Desktop",
         eframe::NativeOptions::default(),

@@ -1,4 +1,4 @@
-pub(crate) fn test_audio() -> tinyaudio::OutputDevice {
+pub fn test_audio() -> tinyaudio::OutputDevice {
     let params = tinyaudio::OutputDeviceParameters {
         channels_count: 2,
         sample_rate: 48000,
