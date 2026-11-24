@@ -26,7 +26,7 @@ impl RNBUi {
     pub fn show(
         &mut self,
         ui: &mut egui::Ui,
-        audio_constructor: impl Fn(&Song) -> Box<dyn AudioSession>,
+        _audio_constructor: impl Fn(&Song) -> Box<dyn AudioSession>,
     ) {
         egui::CentralPanel::default().show(ui, |ui| {
             egui::Scene::new()
