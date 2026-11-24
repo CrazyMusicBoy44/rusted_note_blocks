@@ -23,3 +23,15 @@ impl eframe::App for RNBDesktopApp {
         self.app_ui.show(ui, |_| todo!());
     }
 }
+
+pub(crate) fn run() -> eframe::Result {
+    eframe::run_native(
+        "Rusted Note Blocks Desktop",
+        eframe::NativeOptions::default(),
+        Box::new(|creation_context| {
+            Ok(Box::new(
+                RNBDesktopApp::new(creation_context).expect("did not recieve a valid song"),
+            ))
+        }),
+    )
+}
