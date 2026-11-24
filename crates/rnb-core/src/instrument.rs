@@ -16,7 +16,7 @@ pub struct RawImage {
 impl Default for RawImage {
     fn default() -> Self {
         Self {
-            raw_image: Cow::Borrowed(include_bytes!("../../../assets/note_block.png"))
+            raw_image: Cow::Borrowed(include_bytes!("../../../assets/note_block.png")),
         }
     }
 }
@@ -77,11 +77,14 @@ macro_rules! include_vanilla_instrument {
         Instrument {
             name: String::from($name),
             pitch_center: $pitch,
-            raw_image: Cow::Borrowed(&include_bytes!(concat!(
-                "../../../assets/vanilla_instruments/",
-                $file,
-                ".png"
-            ))[..]).into(),
+            raw_image: Cow::Borrowed(
+                &include_bytes!(concat!(
+                    "../../../assets/vanilla_instruments/",
+                    $file,
+                    ".png"
+                ))[..],
+            )
+            .into(),
         }
     };
 }

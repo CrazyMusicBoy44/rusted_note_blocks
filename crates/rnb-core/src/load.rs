@@ -1,5 +1,5 @@
 use crate::{
-    instrument::{Instruments, Instrument},
+    instrument::{Instrument, Instruments},
     notes::{InstrumentIndex, Note},
     number_types::{U0F16, U8F8},
     song::{Song, SongMetadata, Tick},
@@ -126,7 +126,8 @@ pub fn load_from_nbs(bytes: &[u8]) -> LoadResult<Song> {
 
     let custom_instrument_count: u8 = nbs_number(bytes, &mut index)?;
 
-    let mut custom_instruments: Vec<Instrument> = Vec::with_capacity(custom_instrument_count as usize);
+    let mut custom_instruments: Vec<Instrument> =
+        Vec::with_capacity(custom_instrument_count as usize);
 
     for _ in 0..custom_instrument_count {
         let custom_instrument_name = nbs_string(bytes, &mut index)?;

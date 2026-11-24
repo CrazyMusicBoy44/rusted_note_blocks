@@ -1,8 +1,8 @@
+use crate::AudioSession;
 use rnb_core::{
     notes::{InstrumentIndex, Note},
     song::Song,
 };
-use crate::AudioSession;
 use std::collections::HashMap;
 
 #[derive()]
@@ -23,7 +23,11 @@ impl RNBUi {
         }
     }
 
-    pub fn show(&mut self, ui: &mut egui::Ui, audio_constructor: impl Fn(&Song) -> Box<dyn AudioSession>) {
+    pub fn show(
+        &mut self,
+        ui: &mut egui::Ui,
+        audio_constructor: impl Fn(&Song) -> Box<dyn AudioSession>,
+    ) {
         egui::CentralPanel::default().show(ui, |ui| {
             egui::Scene::new()
                 .zoom_range(4.0..=1024.0)

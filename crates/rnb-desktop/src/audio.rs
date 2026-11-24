@@ -15,9 +15,8 @@ pub(crate) fn test_audio() -> tinyaudio::OutputDevice {
             frame.fill(sample);
             phase = (phase + freq / params.sample_rate as f32) % 1.0;
         }
-    }).expect("i expect something here but it was error")
+    })
+    .expect("i expect something here but it was error")
 }
 
-struct DesktopAudio {
-
-}
+struct DesktopAudio {}
