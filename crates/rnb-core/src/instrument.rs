@@ -40,6 +40,7 @@ impl Default for Instruments {
 }
 
 impl Instruments {
+    #[must_use]
     pub fn new() -> Self {
         Self {
             vanilla_instruments: vanilla_instruments(),
@@ -47,6 +48,7 @@ impl Instruments {
         }
     }
 
+    #[must_use]
     pub fn from_custom_instruments(custom_instruments: Vec<Instrument>) -> Self {
         Self {
             vanilla_instruments: vanilla_instruments(),
@@ -54,6 +56,7 @@ impl Instruments {
         }
     }
 
+    #[must_use]
     pub fn get_instrument(&self, instrument_index: InstrumentIndex) -> Option<Instrument> {
         match instrument_index {
             InstrumentIndex::Vanilla { .. } => self
@@ -67,6 +70,7 @@ impl Instruments {
         }
     }
 
+    #[must_use]
     pub fn get_instrument_from_note(&self, note: Note) -> Option<Instrument> {
         self.get_instrument(note.instrument_index)
     }

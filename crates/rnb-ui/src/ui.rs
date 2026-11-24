@@ -14,6 +14,7 @@ pub struct RNBUi {
 }
 
 impl RNBUi {
+    #[must_use]
     pub fn new(_ctx: &egui::Context, song: Song) -> Self {
         Self {
             scene_rect: egui::Rect::from_min_max(egui::pos2(0.0, 0.0), egui::pos2(30.0, 30.0)),

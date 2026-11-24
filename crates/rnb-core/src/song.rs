@@ -16,6 +16,7 @@ pub struct Song {
 }
 
 impl Song {
+    #[must_use]
     pub fn get_note_at(&self, x: u32, y: u32) -> Option<Note> {
         self.notes.get(x as usize)?.as_ref()?.get_note_at(y)
     }
@@ -32,6 +33,7 @@ impl Tick {
         vec.dedup_by_key(|(pos, _)| *pos);
         Self { notes: vec }
     }
+    #[must_use]
     pub fn get_note_at(&self, y: u32) -> Option<Note> {
         self.notes
             .binary_search_by_key(&y, |(pos, _)| *pos)
@@ -43,6 +45,7 @@ impl Tick {
             Err(index) => self.notes.insert(index, (y, note)),
         }
     }
+    #[must_use]
     pub fn get_notes_between(&self, min: u32, max: u32) -> &[(u32, Note)] {
         let start = self.notes.partition_point(|&(k, _)| k < min);
         let end = start + self.notes[start..].partition_point(|&(k, _)| k <= max);

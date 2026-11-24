@@ -8,6 +8,7 @@ use std::{
 pub struct U8F8(pub u16);
 
 impl U8F8 {
+    #[must_use]
     pub fn to_f32(&self) -> f32 {
         f32::from(self.0) / 256.0
     }
@@ -67,12 +68,14 @@ impl Add<u8> for U8F8 {
 pub struct U0F16(pub u16);
 
 impl U0F16 {
+    #[must_use]
     pub fn to_f32(&self) -> f32 {
         f32::from(self.0) / 65536.0
     }
     pub const fn from_nbs_velocity(velocity: i8) -> Self {
         Self(((velocity as u32 * 65535) / 100) as u16)
     }
+    #[must_use]
     pub fn to_nbs_velocity(&self) -> i8 {
         ((u32::from(self.0) * 100) / 65535) as i8
     }
