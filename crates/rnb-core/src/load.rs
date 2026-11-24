@@ -35,6 +35,12 @@ impl std::error::Error for LoadError {}
 
 pub type LoadResult<T> = Result<T, LoadError>;
 
+/// Parses a nbs file from a byte array
+///
+/// # Errors
+///
+/// This function will return a [`LoadError`] if the contents end early or are malformed
+/// Uses a [`LoadErrorKind::Unsupported`] if the version is below 4 or above 6
 pub fn load_from_nbs(bytes: &[u8]) -> LoadResult<Song> {
     let mut index = 0;
 
