@@ -30,7 +30,7 @@ impl LoadError {
 
 impl std::fmt::Display for LoadError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.message)
+        write!(f, "{:?}: {}", self.kind, self.message)
     }
 }
 
