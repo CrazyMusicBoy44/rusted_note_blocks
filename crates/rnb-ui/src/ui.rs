@@ -71,8 +71,8 @@ impl RNBUi {
                     egui::pos2(x as f32, y as f32),
                     egui::pos2((x + 1) as f32, (y + 1) as f32),
                 ),
-            )
-        };
+            );
+        }
     }
 }
 
@@ -99,7 +99,7 @@ impl TextureCache {
     ) -> Option<egui::TextureHandle> {
         if let Some(texture) = self.textures.get(&instrument_index) {
             return Some(texture.clone());
-        };
+        }
         if let Some(instrument) = song.instruments.get_instrument(instrument_index) {
             let texture = ui.ctx().load_texture(
                 instrument.name.clone(),
@@ -112,7 +112,7 @@ impl TextureCache {
             );
             self.textures.insert(instrument_index, texture.clone());
             return Some(texture);
-        };
+        }
         None
     }
 }
