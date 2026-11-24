@@ -17,3 +17,7 @@ pub(crate) fn test_audio() -> tinyaudio::OutputDevice {
         }
     }).expect("i expect something here but it was error")
 }
+
+struct DesktopAudio {
+
+}
