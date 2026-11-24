@@ -1,8 +1,5 @@
 use crate::{
-    instrument::{Instrument, Instruments},
-    notes::{InstrumentIndex, Note},
-    number_types::{U0F16, U8F8},
-    song::{Song, SongMetadata, Tick},
+    instrument::{Instrument, Instruments, RawImage}, notes::{InstrumentIndex, Note}, number_types::{U0F16, U8F8}, song::{Song, SongMetadata, Tick},
 };
 use std::num::NonZeroU16;
 
@@ -40,13 +37,53 @@ pub type LoadResult<T> = Result<T, LoadError>;
 
 pub fn load_from_nbs(bytes: &[u8]) -> LoadResult<Song> {
     let mut index = 0;
-    if nbs_number::<i16>(bytes, &mut index)? != 0 || nbs_number::<i8>(bytes, &mut index)? < 4 {
+
+    let (metadata, song_length, vanilla_instrument_count, layer_count) = parse_header(bytes, &mut index)?;
+
+    let notes = parse_notes(bytes, &mut index, song_length, vanilla_instrument_count)?;
+
+    parse_layers(bytes, &mut index, layer_count)?;
+
+    let instruments = parse_instruments(bytes, &mut index)?;
+
+    Ok(Song {
+        metadata,
+        notes,
+        instruments,
+    })
+}
+
+fn parse_instruments(bytes: &[u8], index: &mut usize) -> LoadResult<Instruments> {
+    let custom_instrument_count: u8 = nbs_number(bytes, index)?;
+
+    let mut custom_instruments: Vec<Instrument> =
+        Vec::with_capacity(custom_instrument_count as usize);
+
+    for _ in 0..custom_instrument_count {
+        let custom_instrument_name = nbs_string(bytes, index)?;
+        let _custom_instrument_sound_file = nbs_string(bytes, index)?;
+        let custom_instrument_key: i8 = nbs_number(bytes, index)?;
+        let _custom_instrument_should_press_piano_key: i8 = nbs_number(bytes, index)?;
+
+        let custom_instrument = Instrument {
+            name: custom_instrument_name,
+            pitch_center: f32::from(custom_instrument_key),
+            raw_image: RawImage::default(),
+        };
+        custom_instruments.push(custom_instrument);
+    }
+
+    Ok(Instruments::from_custom_instruments(custom_instruments))
+}
+
+fn parse_header(bytes: &[u8], index: &mut usize) -> LoadResult<(SongMetadata, i16, u8, i16)> {
+    if nbs_number::<i16>(bytes, index)? != 0 || nbs_number::<i8>(bytes, index)? < 4 {
         return Err(LoadError::new(
             LoadErrorKind::Unsupported,
             "Only NBS version 4 and above is supported",
         ));
     }
-    let signed_vanilla_instrument_count: i8 = nbs_number(bytes, &mut index)?;
+    let signed_vanilla_instrument_count: i8 = nbs_number(bytes, index)?;
     let vanilla_instrument_count: u8 = if signed_vanilla_instrument_count < 0 {
         return Err(LoadError::new(
             LoadErrorKind::InvalidData,
@@ -55,26 +92,26 @@ pub fn load_from_nbs(bytes: &[u8]) -> LoadResult<Song> {
     } else {
         signed_vanilla_instrument_count as u8
     };
-    let song_length: i16 = nbs_number(bytes, &mut index)?;
-    let layer_count: i16 = nbs_number(bytes, &mut index)?;
-    let name: String = nbs_string(bytes, &mut index)?;
-    let author: String = nbs_string(bytes, &mut index)?;
-    let original_author: String = nbs_string(bytes, &mut index)?;
-    let description: String = nbs_string(bytes, &mut index)?;
-    let raw_song_tempo: i16 = nbs_number(bytes, &mut index)?;
+    let song_length: i16 = nbs_number(bytes, index)?;
+    let layer_count: i16 = nbs_number(bytes, index)?;
+    let name: String = nbs_string(bytes, index)?;
+    let author: String = nbs_string(bytes, index)?;
+    let original_author: String = nbs_string(bytes, index)?;
+    let description: String = nbs_string(bytes, index)?;
+    let raw_song_tempo: i16 = nbs_number(bytes, index)?;
     let _song_tempo: f32 = f32::from(raw_song_tempo) / 100.0;
-    let _auto_saving: i8 = nbs_number(bytes, &mut index)?;
-    let _auto_saving_interval: i8 = nbs_number(bytes, &mut index)?;
-    let _time_signature: i8 = nbs_number(bytes, &mut index)?;
-    let _minutes_spent: i32 = nbs_number(bytes, &mut index)?;
-    let _left_clicks: i32 = nbs_number(bytes, &mut index)?;
-    let _right_clicks: i32 = nbs_number(bytes, &mut index)?;
-    let _note_blocks_added: i32 = nbs_number(bytes, &mut index)?;
-    let _note_blocks_removed: i32 = nbs_number(bytes, &mut index)?;
-    let _imported_file_name: String = nbs_string(bytes, &mut index)?;
-    let _loop_enabled: i8 = nbs_number(bytes, &mut index)?;
-    let _max_loop_count: i8 = nbs_number(bytes, &mut index)?;
-    let _loop_start_tick: i16 = nbs_number(bytes, &mut index)?;
+    let _auto_saving: i8 = nbs_number(bytes, index)?;
+    let _auto_saving_interval: i8 = nbs_number(bytes, index)?;
+    let _time_signature: i8 = nbs_number(bytes, index)?;
+    let _minutes_spent: i32 = nbs_number(bytes, index)?;
+    let _left_clicks: i32 = nbs_number(bytes, index)?;
+    let _right_clicks: i32 = nbs_number(bytes, index)?;
+    let _note_blocks_added: i32 = nbs_number(bytes, index)?;
+    let _note_blocks_removed: i32 = nbs_number(bytes, index)?;
+    let _imported_file_name: String = nbs_string(bytes, index)?;
+    let _loop_enabled: i8 = nbs_number(bytes, index)?;
+    let _max_loop_count: i8 = nbs_number(bytes, index)?;
+    let _loop_start_tick: i16 = nbs_number(bytes, index)?;
 
     let metadata = SongMetadata {
         name,
@@ -82,34 +119,38 @@ pub fn load_from_nbs(bytes: &[u8]) -> LoadResult<Song> {
         original_author,
         description,
     };
+    Ok((metadata, song_length, vanilla_instrument_count, layer_count))
+}
 
-    let mut tick: i16 = -1;
+fn parse_notes(bytes: &[u8], index: &mut usize, song_length: i16, vanilla_instrument_count: u8) -> LoadResult<Vec<Option<Tick>>> {
     if song_length < 0 {
         return Err(LoadError::new(
             LoadErrorKind::InvalidData,
             "Song length is negative",
         ));
     }
-    let mut notes: Vec<Option<Tick>> = vec![None; (song_length + 16) as usize];
+    let mut notes: Vec<Option<Tick>> = vec![None; (song_length as usize) + 16];
+
+    let mut tick: i16 = -1;
 
     loop {
-        match nbs_number(bytes, &mut index)? {
+        match nbs_number(bytes, index)? {
             0 => break,
             val => tick += val,
         }
         let mut layer: i16 = -1;
         let mut tick_notes: Vec<(u32, Note)> = Vec::with_capacity(16);
         loop {
-            match nbs_number(bytes, &mut index)? {
+            match nbs_number(bytes, index)? {
                 0 => break,
                 val => layer += val,
             }
             let note: Note = NBSNote {
-                instrument: nbs_number(bytes, &mut index)?,
-                key: nbs_number(bytes, &mut index)?,
-                velocity: nbs_number(bytes, &mut index)?,
-                pan: nbs_number(bytes, &mut index)?,
-                pitch: nbs_number(bytes, &mut index)?,
+                instrument: nbs_number(bytes, index)?,
+                key: nbs_number(bytes, index)?,
+                velocity: nbs_number(bytes, index)?,
+                pan: nbs_number(bytes, index)?,
+                pitch: nbs_number(bytes, index)?,
             }
             .to_note(vanilla_instrument_count);
             tick_notes.push((layer as u32, note));
@@ -117,39 +158,17 @@ pub fn load_from_nbs(bytes: &[u8]) -> LoadResult<Song> {
         notes[tick as usize] = Some(Tick::from_vec(tick_notes));
     }
 
+    Ok(notes)
+}
+
+fn parse_layers(bytes: &[u8], index: &mut usize, layer_count: i16) -> LoadResult<()> {
     for _ in 0..layer_count {
-        let _layer_name = nbs_string(bytes, &mut index)?;
-        let _layer_locked: i8 = nbs_number(bytes, &mut index)?;
-        let _layer_volume: i8 = nbs_number(bytes, &mut index)?;
-        let _layer_pan: u8 = nbs_number(bytes, &mut index)?;
+        let _layer_name = nbs_string(bytes, index)?;
+        let _layer_locked: i8 = nbs_number(bytes, index)?;
+        let _layer_volume: i8 = nbs_number(bytes, index)?;
+        let _layer_pan: u8 = nbs_number(bytes, index)?;
     }
-
-    let custom_instrument_count: u8 = nbs_number(bytes, &mut index)?;
-
-    let mut custom_instruments: Vec<Instrument> =
-        Vec::with_capacity(custom_instrument_count as usize);
-
-    for _ in 0..custom_instrument_count {
-        let custom_instrument_name = nbs_string(bytes, &mut index)?;
-        let _custom_instrument_sound_file = nbs_string(bytes, &mut index)?;
-        let custom_instrument_key: i8 = nbs_number(bytes, &mut index)?;
-        let _custom_instrument_should_press_piano_key: i8 = nbs_number(bytes, &mut index)?;
-
-        let custom_instrument = Instrument {
-            name: custom_instrument_name,
-            pitch_center: f32::from(custom_instrument_key),
-            raw_image: Default::default(),
-        };
-        custom_instruments.push(custom_instrument);
-    }
-
-    let instruments = Instruments::from_custom_instruments(custom_instruments);
-
-    Ok(Song {
-        metadata,
-        notes,
-        instruments,
-    })
+    Ok(())
 }
 
 struct NBSNote {
