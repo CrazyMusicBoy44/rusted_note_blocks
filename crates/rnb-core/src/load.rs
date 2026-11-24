@@ -1,5 +1,8 @@
 use crate::{
-    instrument::{Instrument, Instruments, RawImage}, notes::{InstrumentIndex, Note}, number_types::{U0F16, U8F8}, song::{Song, SongMetadata, Tick},
+    instrument::{Instrument, Instruments, RawImage},
+    notes::{InstrumentIndex, Note},
+    number_types::{U0F16, U8F8},
+    song::{Song, SongMetadata, Tick},
 };
 use std::num::NonZeroU16;
 
@@ -44,7 +47,8 @@ pub type LoadResult<T> = Result<T, LoadError>;
 pub fn load_from_nbs(bytes: &[u8]) -> LoadResult<Song> {
     let mut index = 0;
 
-    let (metadata, song_length, vanilla_instrument_count, layer_count) = parse_header(bytes, &mut index)?;
+    let (metadata, song_length, vanilla_instrument_count, layer_count) =
+        parse_header(bytes, &mut index)?;
 
     let notes = parse_notes(bytes, &mut index, song_length, vanilla_instrument_count)?;
 
@@ -83,7 +87,8 @@ fn parse_instruments(bytes: &[u8], index: &mut usize) -> LoadResult<Instruments>
 }
 
 fn parse_header(bytes: &[u8], index: &mut usize) -> LoadResult<(SongMetadata, i16, u8, i16)> {
-    if nbs_number::<i16>(bytes, index)? != 0 || !(4..=6).contains(&nbs_number::<i8>(bytes, index)?) {
+    if nbs_number::<i16>(bytes, index)? != 0 || !(4..=6).contains(&nbs_number::<i8>(bytes, index)?)
+    {
         return Err(LoadError::new(
             LoadErrorKind::Unsupported,
             "Only NBS version 4 through 6 is supported",
@@ -128,7 +133,12 @@ fn parse_header(bytes: &[u8], index: &mut usize) -> LoadResult<(SongMetadata, i1
     Ok((metadata, song_length, vanilla_instrument_count, layer_count))
 }
 
-fn parse_notes(bytes: &[u8], index: &mut usize, song_length: i16, vanilla_instrument_count: u8) -> LoadResult<Vec<Option<Tick>>> {
+fn parse_notes(
+    bytes: &[u8],
+    index: &mut usize,
+    song_length: i16,
+    vanilla_instrument_count: u8,
+) -> LoadResult<Vec<Option<Tick>>> {
     if song_length < 0 {
         return Err(LoadError::new(
             LoadErrorKind::InvalidData,
