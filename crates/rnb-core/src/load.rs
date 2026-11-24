@@ -83,10 +83,10 @@ fn parse_instruments(bytes: &[u8], index: &mut usize) -> LoadResult<Instruments>
 }
 
 fn parse_header(bytes: &[u8], index: &mut usize) -> LoadResult<(SongMetadata, i16, u8, i16)> {
-    if nbs_number::<i16>(bytes, index)? != 0 || nbs_number::<i8>(bytes, index)? < 4 {
+    if nbs_number::<i16>(bytes, index)? != 0 || !(4..=6).contains(&nbs_number::<i8>(bytes, index)?) {
         return Err(LoadError::new(
             LoadErrorKind::Unsupported,
-            "Only NBS version 4 and above is supported",
+            "Only NBS version 4 through 6 is supported",
         ));
     }
     let signed_vanilla_instrument_count: i8 = nbs_number(bytes, index)?;
