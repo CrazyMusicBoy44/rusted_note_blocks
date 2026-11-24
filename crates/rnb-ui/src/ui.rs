@@ -23,7 +23,7 @@ impl RNBUi {
         }
     }
 
-    pub fn show(&mut self, ui: &mut egui::Ui, audio_constructor: impl Fn(&Song) -> AudioSession) {
+    pub fn show(&mut self, ui: &mut egui::Ui, audio_constructor: impl Fn(&Song) -> Box<dyn AudioSession>) {
         egui::CentralPanel::default().show(ui, |ui| {
             egui::Scene::new()
                 .zoom_range(4.0..=1024.0)
