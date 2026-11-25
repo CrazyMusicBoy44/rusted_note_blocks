@@ -1,6 +1,4 @@
-pub(crate) struct Mixer {
-
-}
+pub(crate) struct Mixer {}
 
 #[derive(Default)]
 struct SampleCache {
@@ -8,19 +6,11 @@ struct SampleCache {
 }
 
 impl SampleCache {
-    fn get_sample_from_note(
-        &mut self,
-        note: &Note,
-        song: &Song,
-    ) -> Option<()> {
+    fn get_sample_from_note(&mut self, note: &Note, song: &Song) -> Option<()> {
         self.get_sample(note.instrument_index, song)
     }
 
-    fn get_sample(
-        &mut self,
-        instrument_index: InstrumentIndex,
-        song: &Song,
-    ) -> Option<()> {
+    fn get_sample(&mut self, instrument_index: InstrumentIndex, song: &Song) -> Option<()> {
         if let Some(sample) = self.samples.get(&instrument_index) {
             return Some(sample.clone());
         }

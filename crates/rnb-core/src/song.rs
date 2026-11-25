@@ -29,9 +29,7 @@ impl NoteGrid {
 
 impl From<Vec<Option<Tick>>> for NoteGrid {
     fn from(notes: Vec<Option<Tick>>) -> Self {
-        Self {
-            notes,
-        }
+        Self { notes }
     }
 }
 

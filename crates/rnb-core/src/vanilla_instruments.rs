@@ -7,11 +7,7 @@ macro_rules! include_vanilla_instrument {
             name: String::from($name),
             pitch_center: $pitch,
             raw_image: Cow::Borrowed(
-                &include_bytes!(concat!(
-                    "../../../assets/textures/vanilla/",
-                    $file,
-                    ".png"
-                ))[..],
+                &include_bytes!(concat!("../../../assets/textures/vanilla/", $file, ".png"))[..],
             )
             .into(),
         }
