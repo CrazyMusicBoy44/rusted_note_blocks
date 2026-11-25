@@ -14,7 +14,7 @@ macro_rules! include_vanilla_instrument {
     };
 }
 
-pub(crate) fn vanilla_instruments() -> Vec<Instrument> {
+pub fn vanilla_instruments() -> Vec<Instrument> {
     vec![
         include_vanilla_instrument!("Harp", 0.0, "harp"),
         include_vanilla_instrument!("Bass", 0.0, "bass"),
