@@ -1,16 +1,17 @@
-use crate::AudioSession;
+use crate::{AudioSession, RNBPlatform};
 use rnb_core::{InstrumentIndex, Note, Song};
 use std::collections::HashMap;
 
 #[derive()]
-pub struct RNBGui {
+pub struct RNBGui<P: RNBPlatform> {
     scene_rect: egui::Rect,
     // scene_rect_bounds: egui::Rect,
     song: Song,
     texture_cache: TextureCache,
+    _platform: Option<P>,
 }
 
-impl RNBGui {
+impl<P: RNBPlatform> RNBGui<P> {
     #[must_use]
     pub fn new(_ctx: &egui::Context, song: Song) -> Self {
         Self {
@@ -18,13 +19,14 @@ impl RNBGui {
             // scene_rect_bounds: egui::Rect::from_min_max(egui::pos2(0.0, 0.0),egui::pos2(30.0, 30.0),),
             song,
             texture_cache: TextureCache::default(),
+            _platform: None,
         }
     }
 
     pub fn show(
         &mut self,
         ui: &mut egui::Ui,
-        _audio_constructor: impl Fn(&Song) -> Box<dyn AudioSession>,
+        _platform: P,
     ) {
         egui::CentralPanel::default().show(ui, |ui| {
             egui::Scene::new()

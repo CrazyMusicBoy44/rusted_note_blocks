@@ -1,8 +1,9 @@
 use rnb_core::load_from_bytes;
 use rnb_gui::RNBGui;
+use crate::platform::DesktopPlatform;
 
 pub struct RNBDesktopApp {
-    app_ui: RNBGui,
+    app_ui: RNBGui<DesktopPlatform>,
 }
 
 impl RNBDesktopApp {
@@ -20,7 +21,7 @@ impl RNBDesktopApp {
 
 impl eframe::App for RNBDesktopApp {
     fn ui(&mut self, ui: &mut eframe::egui::Ui, _frame: &mut eframe::Frame) {
-        self.app_ui.show(ui, |_| todo!());
+        self.app_ui.show(ui, DesktopPlatform {});
     }
 }
 
