@@ -14,11 +14,11 @@ pub fn test_audio() -> tinyaudio::OutputDevice {
     .expect("i expect something here but it was error")
 }
 
-struct DesktopAudio {
+struct _DesktopAudio {
     device: tinyaudio::OutputDevice,
 }
 
-impl rnb_gui::AudioSession for DesktopAudio {
+impl rnb_gui::AudioSession for _DesktopAudio {
     fn next_buffer(&mut self, samples: &mut [f32]) {
         let params = OUTPUT_PARAMS;
         let mut phase = 0.0_f32;
