@@ -1,4 +1,4 @@
-use crate::{AudioSession, RNBPlatform};
+use crate::RNBPlatform;
 use rnb_core::{InstrumentIndex, Note, Song};
 use std::collections::HashMap;
 
