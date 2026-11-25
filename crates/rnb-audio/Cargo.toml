@@ -5,6 +5,7 @@ edition = "2024"
 
 [dependencies]
 rnb-core = { version = "0.1.0", path = "../rnb-core" }
+symphonia = "0.6.1"
 
 [lints]
 workspace = true
