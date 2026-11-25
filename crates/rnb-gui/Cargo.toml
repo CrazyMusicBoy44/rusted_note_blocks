@@ -6,6 +6,7 @@ edition = "2024"
 [dependencies]
 egui = { version = "0.37.0", features = ["mint"] }
 image = "0.25.10"
+rnb-audio = { version = "0.1.0", path = "../rnb-audio" }
 # egui = { git = "https://github.com/emilk/egui", branch = "main" }
 rnb-core = { version = "0.1.0", path = "../rnb-core" }
 
