@@ -15,7 +15,23 @@ pub fn test_audio() -> tinyaudio::OutputDevice {
     .expect("i expect something here but it was error")
 }
 
-struct DesktopAudio {}
+struct DesktopAudio {
+    device: tinyaudio::OutputDevice,
+}
+
+impl rnb_ui::AudioSession for DesktopAudio {
+    fn next_buffer(&mut self, samples: &mut [f32]) {
+        for frame in samples.chunks_exact_mut(params.channels_count) {
+            let sample = if phase < 0.5 { volume } else { -volume };
+            frame.fill(sample);
+            phase = (phase + freq / params.sample_rate as f32) % 1.0;
+        }
+    }
+
+    fn is_done(&self) -> bool {
+        false
+    }
+}
 
 const OUTPUT_PARAMS: tinyaudio::OutputDeviceParameters = tinyaudio::OutputDeviceParameters {
     channels_count: 2,
