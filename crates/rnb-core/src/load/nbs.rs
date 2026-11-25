@@ -1,9 +1,5 @@
 use crate::{
-    instrument::{Instrument, Instruments, RawImage},
-    notes::{InstrumentIndex, Note},
-    number_types::{U0F16, U8F8},
-    song::{Song, SongMetadata, Tick},
-    load::{LoadResult, LoadError, LoadErrorKind},
+    instrument::{Instrument, Instruments, RawImage}, load::{LoadError, LoadErrorKind, LoadResult}, notes::{InstrumentIndex, Note}, number_types::{U0F16, U8F8}, song::{NoteGrid, Song, SongMetadata, Tick},
 };
 use std::num::NonZeroU16;
 
@@ -107,7 +103,7 @@ fn parse_notes(
     index: &mut usize,
     song_length: i16,
     vanilla_instrument_count: u8,
-) -> LoadResult<Vec<Option<Tick>>> {
+) -> LoadResult<NoteGrid> {
     if song_length < 0 {
         return Err(LoadError::new(
             LoadErrorKind::InvalidData,
@@ -143,7 +139,7 @@ fn parse_notes(
         notes[tick as usize] = Some(Tick::from_vec(tick_notes));
     }
 
-    Ok(notes)
+    Ok(NoteGrid::from(notes))
 }
 
 fn parse_layers(bytes: &[u8], index: &mut usize, layer_count: i16) -> LoadResult<()> {

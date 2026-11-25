@@ -63,7 +63,7 @@ impl RNBUi {
         y: u32,
         ui: &egui::Ui,
     ) {
-        if let Some(note) = song.get_note_at(x, y)
+        if let Some(note) = song.notes.get_note_at(x, y)
             && let Some(texture) = texture_cache.get_texture_from_note(&note, song, ui)
         {
             egui::Image::new(&texture).paint_at(

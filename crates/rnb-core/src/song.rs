@@ -11,14 +11,27 @@ pub struct SongMetadata {
 #[derive(Default, Clone, Debug)]
 pub struct Song {
     pub metadata: SongMetadata,
-    pub notes: Vec<Option<Tick>>,
+    pub notes: NoteGrid,
     pub instruments: Instruments,
 }
 
-impl Song {
+#[derive(Default, Clone, Debug)]
+pub struct NoteGrid {
+    notes: Vec<Option<Tick>>,
+}
+
+impl NoteGrid {
     #[must_use]
     pub fn get_note_at(&self, x: u32, y: u32) -> Option<Note> {
         self.notes.get(x as usize)?.as_ref()?.get_note_at(y)
+    }
+}
+
+impl From<Vec<Option<Tick>>> for NoteGrid {
+    fn from(notes: Vec<Option<Tick>>) -> Self {
+        Self {
+            notes,
+        }
     }
 }
 
