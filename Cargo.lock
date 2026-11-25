@@ -3351,12 +3351,12 @@ dependencies = [
  "eframe",
  "rfd",
  "rnb-core",
- "rnb-ui",
+ "rnb-gui",
  "tinyaudio",
 ]
 
 [[package]]
-name = "rnb-ui"
+name = "rnb-gui"
 version = "0.1.0"
 dependencies = [
  "egui",

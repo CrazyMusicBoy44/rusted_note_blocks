@@ -1,8 +1,8 @@
 use rnb_core::load;
-use rnb_ui::RNBUi;
+use rnb_gui::RNBGui;
 
 pub struct RNBDesktopApp {
-    app_ui: RNBUi,
+    app_ui: RNBGui,
 }
 
 impl RNBDesktopApp {
@@ -13,7 +13,7 @@ impl RNBDesktopApp {
         let song_bytes = load::load_from_bytes(&file?).ok()?;
 
         Some(Self {
-            app_ui: RNBUi::new(&cc.egui_ctx, song_bytes),
+            app_ui: RNBGui::new(&cc.egui_ctx, song_bytes),
         })
     }
 }

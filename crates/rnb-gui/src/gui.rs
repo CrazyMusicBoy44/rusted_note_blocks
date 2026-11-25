@@ -6,14 +6,14 @@ use rnb_core::{
 use std::collections::HashMap;
 
 #[derive()]
-pub struct RNBUi {
+pub struct RNBGui {
     scene_rect: egui::Rect,
     // scene_rect_bounds: egui::Rect,
     song: Song,
     texture_cache: TextureCache,
 }
 
-impl RNBUi {
+impl RNBGui {
     #[must_use]
     pub fn new(_ctx: &egui::Context, song: Song) -> Self {
         Self {
