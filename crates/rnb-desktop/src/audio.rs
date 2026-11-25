@@ -1,9 +1,5 @@
 pub fn test_audio() -> tinyaudio::OutputDevice {
-    let params = tinyaudio::OutputDeviceParameters {
-        channels_count: 2,
-        sample_rate: 48000,
-        channel_sample_count: 4096,
-    };
+    let params = OUTPUT_PARAMS;
 
     let mut phase = 0.0_f32;
     let freq = 440.0;
@@ -20,3 +16,9 @@ pub fn test_audio() -> tinyaudio::OutputDevice {
 }
 
 struct DesktopAudio {}
+
+const OUTPUT_PARAMS: tinyaudio::OutputDeviceParameters = tinyaudio::OutputDeviceParameters {
+    channels_count: 2,
+    sample_rate: 48000,
+    channel_sample_count: 4096,
+};
