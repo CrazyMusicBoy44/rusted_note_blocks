@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["crates/rnb-core", "crates/rnb-desktop", "crates/rnb-gui"]
+members = ["crates/rnb-audio","crates/rnb-core", "crates/rnb-desktop", "crates/rnb-gui"]
 
 [workspace.lints.clippy]
 # UM, ACTUALLY

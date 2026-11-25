@@ -1,0 +1,10 @@
+[package]
+name = "rnb-audio"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+rnb-core = { version = "0.1.0", path = "../rnb-core" }
+
+[lints]
+workspace = true
