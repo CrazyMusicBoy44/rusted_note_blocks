@@ -1,6 +1,5 @@
 pub fn test_audio() -> tinyaudio::OutputDevice {
     let params = OUTPUT_PARAMS;
-
     let mut phase = 0.0_f32;
     let freq = 440.0;
     let volume = 0.1;
@@ -21,6 +20,11 @@ struct DesktopAudio {
 
 impl rnb_ui::AudioSession for DesktopAudio {
     fn next_buffer(&mut self, samples: &mut [f32]) {
+        let params = OUTPUT_PARAMS;
+        let mut phase = 0.0_f32;
+        let freq = 440.0;
+        let volume = 0.1;
+
         for frame in samples.chunks_exact_mut(params.channels_count) {
             let sample = if phase < 0.5 { volume } else { -volume };
             frame.fill(sample);
