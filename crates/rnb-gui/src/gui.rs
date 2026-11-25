@@ -23,11 +23,7 @@ impl<P: RNBPlatform> RNBGui<P> {
         }
     }
 
-    pub fn show(
-        &mut self,
-        ui: &mut egui::Ui,
-        _platform: P,
-    ) {
+    pub fn show(&mut self, ui: &mut egui::Ui, _platform: P) {
         egui::CentralPanel::default().show(ui, |ui| {
             egui::Scene::new()
                 .zoom_range(4.0..=1024.0)
