@@ -20,7 +20,7 @@ pub struct DesktopAudio {
 
 impl DesktopAudio {
     pub fn new() -> Self {
-        DesktopAudio {
+        Self {
             _device: tinyaudio::run_output_device(OUTPUT_PARAMS, |_samples| {})
                 .expect("output device wasn't made i guess"),
         }
