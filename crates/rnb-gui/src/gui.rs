@@ -1,7 +1,7 @@
 use crate::AudioSession;
 use rnb_core::{
-    notes::{InstrumentIndex, Note},
-    song::Song,
+    InstrumentIndex, Note,
+    Song,
 };
 use std::collections::HashMap;
 

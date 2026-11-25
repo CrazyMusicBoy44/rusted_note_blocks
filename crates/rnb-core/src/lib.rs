@@ -3,6 +3,7 @@ mod file;
 mod notes;
 mod number_types;
 mod song;
+pub(crate) mod vanilla_instruments;
 
 pub use instrument::Instrument;
 pub use instrument::Instruments;

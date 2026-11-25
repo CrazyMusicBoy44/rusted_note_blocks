@@ -1,4 +1,4 @@
-use rnb_core::load;
+use rnb_core::load_from_bytes;
 use rnb_gui::RNBGui;
 
 pub struct RNBDesktopApp {
@@ -10,7 +10,7 @@ impl RNBDesktopApp {
         let file = rfd::FileDialog::new()
             .pick_file()
             .and_then(|path| std::fs::read(path).ok());
-        let song_bytes = load::load_from_bytes(&file?).ok()?;
+        let song_bytes = load_from_bytes(&file?).ok()?;
 
         Some(Self {
             app_ui: RNBGui::new(&cc.egui_ctx, song_bytes),
