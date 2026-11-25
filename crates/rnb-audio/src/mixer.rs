@@ -1,8 +1,12 @@
+use std::collections::HashMap;
+
+use rnb_core::{InstrumentIndex, Note, Song};
+
 pub(crate) struct Mixer {}
 
 #[derive(Default)]
 struct SampleCache {
-    samples: HashMap<InstrumentIndex, !>,
+    samples: HashMap<InstrumentIndex, ()>,
 }
 
 impl SampleCache {
@@ -14,7 +18,7 @@ impl SampleCache {
         if let Some(sample) = self.samples.get(&instrument_index) {
             return Some(sample.clone());
         }
-        if let Some(instrument) = song.instruments.get_instrument(instrument_index) {
+        if let Some(_instrument) = song.instruments.get_instrument(instrument_index) {
             let sample = ();
             self.samples.insert(instrument_index, sample.clone());
             return Some(sample);
