@@ -1,5 +1,25 @@
-pub mod instrument;
-pub mod load;
-pub mod notes;
-pub mod number_types;
-pub mod song;
+mod instrument;
+mod file;
+mod notes;
+mod number_types;
+mod song;
+
+pub use instrument::Instrument;
+pub use instrument::Instruments;
+pub use instrument::RawImage;
+
+pub use file::LoadError;
+pub use file::LoadResult;
+pub use file::LoadErrorKind;
+pub use file::load_from_bytes;
+
+pub use notes::InstrumentIndex;
+pub use notes::Note;
+
+pub use number_types::U8F8;
+pub use number_types::U0F16;
+
+pub use song::Song;
+pub use song::SongMetadata;
+pub use song::NoteGrid;
+pub use song::Tick;
