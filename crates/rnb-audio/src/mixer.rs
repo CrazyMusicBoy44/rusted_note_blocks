@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use rnb_core::{InstrumentIndex, Note, Song};
 
-pub(crate) struct Mixer {}
+pub struct Mixer {}
 
 #[derive(Default)]
 struct SampleCache {
