@@ -6,6 +6,7 @@ pub struct Instrument {
     pub name: String,
     pub pitch_center: f32,
     pub raw_image: RawImage,
+    pub raw_sample: RawSample,
 }
 
 #[derive(Clone, Debug)]
@@ -33,6 +34,7 @@ impl From<&'static [u8]> for RawImage {
     }
 }
 
+#[derive(Clone, Debug, Default)]
 pub struct RawSample {
     raw_sample: Cow<'static, [u8]>,
 }

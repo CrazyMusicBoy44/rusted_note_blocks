@@ -1,4 +1,4 @@
-use crate::{Instrument, RawImage};
+use crate::{Instrument, RawImage, RawSample};
 
 macro_rules! include_vanilla_instrument {
     ($name:expr, $pitch:expr, $file:expr) => {
@@ -8,6 +8,9 @@ macro_rules! include_vanilla_instrument {
             raw_image: RawImage::from(
                 &include_bytes!(concat!("../../../assets/textures/vanilla/", $file, ".png"))[..],
             ),
+            raw_sample: RawSample::from(
+                &include_bytes!(concat!("../../../assets/samples/vanilla/", $file, ".ogg"))[..],
+            )
         }
     };
 }

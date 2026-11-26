@@ -1,6 +1,5 @@
 use crate::{
-    Instrument, InstrumentIndex, Instruments, LoadError, LoadErrorKind, LoadResult, Note, NoteGrid,
-    RawImage, Song, SongMetadata, Tick, U0F16, U8F8,
+    Instrument, InstrumentIndex, Instruments, LoadError, LoadErrorKind, LoadResult, Note, NoteGrid, RawImage, RawSample, Song, SongMetadata, Tick, U0F16, U8F8,
 };
 use std::num::NonZeroU16;
 
@@ -45,6 +44,7 @@ fn parse_instruments(bytes: &[u8], index: &mut usize) -> LoadResult<Instruments>
             name: custom_instrument_name,
             pitch_center: f32::from(custom_instrument_key),
             raw_image: RawImage::default(),
+            raw_sample: RawSample::default(),
         };
         custom_instruments.push(custom_instrument);
     }
