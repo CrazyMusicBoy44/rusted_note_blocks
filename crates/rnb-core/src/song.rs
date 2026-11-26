@@ -1,4 +1,4 @@
-use crate::{NoteGrid, Instruments};
+use crate::{Instruments, NoteGrid};
 
 #[derive(Default, Clone, Debug)]
 pub struct SongMetadata {

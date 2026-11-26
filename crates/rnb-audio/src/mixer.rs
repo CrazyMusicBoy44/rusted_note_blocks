@@ -8,7 +8,9 @@ pub struct Mixer {
 
 impl Mixer {
     pub fn new() -> Self {
-        Self { sample_cache: SampleCache::default(), }
+        Self {
+            sample_cache: SampleCache::default(),
+        }
     }
     pub fn get_sample_from_note(&mut self, note: &Note, song: &Song) -> Option<()> {
         self.sample_cache.get_sample_from_note(note, song)

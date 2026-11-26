@@ -1,9 +1,9 @@
 mod file;
+mod grid;
 mod instrument;
 mod notes;
 mod number_types;
 mod song;
-mod grid;
 pub(crate) mod vanilla_instruments;
 
 pub use instrument::Instrument;
@@ -25,6 +25,6 @@ pub use number_types::U8F8;
 pub use song::Song;
 pub use song::SongMetadata;
 
+pub use grid::GridRect;
 pub use grid::NoteGrid;
 pub(crate) use grid::Tick;
-pub use grid::GridRect;
