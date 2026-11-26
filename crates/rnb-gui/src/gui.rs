@@ -1,4 +1,5 @@
 use crate::RNBPlatform;
+use rnb_audio::Mixer;
 use rnb_core::{InstrumentIndex, Note, Song};
 use std::collections::HashMap;
 
@@ -9,6 +10,7 @@ pub struct RNBGui<P: RNBPlatform> {
     song: Song,
     texture_cache: TextureCache,
     _platform: Option<P>,
+    _mixer: Option<Mixer>,
 }
 
 impl<P: RNBPlatform> RNBGui<P> {
@@ -20,6 +22,7 @@ impl<P: RNBPlatform> RNBGui<P> {
             song,
             texture_cache: TextureCache::default(),
             _platform: None,
+            _mixer: None,
         }
     }
 
