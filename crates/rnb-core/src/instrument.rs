@@ -27,9 +27,9 @@ impl Default for RawImage {
     }
 }
 
-impl From<Cow<'static, [u8]>> for RawImage {
-    fn from(value: Cow<'static, [u8]>) -> Self {
-        Self { raw_image: value }
+impl From<&'static [u8]> for RawImage {
+    fn from(value: &'static [u8]) -> Self {
+        Self { raw_image: Cow::from(value), }
     }
 }
 

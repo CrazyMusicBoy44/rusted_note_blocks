@@ -1,15 +1,13 @@
-use crate::Instrument;
-use std::borrow::Cow;
+use crate::{Instrument, RawImage};
 
 macro_rules! include_vanilla_instrument {
     ($name:expr, $pitch:expr, $file:expr) => {
         Instrument {
             name: String::from($name),
             pitch_center: $pitch,
-            raw_image: Cow::Borrowed(
+            raw_image: RawImage::from(
                 &include_bytes!(concat!("../../../assets/textures/vanilla/", $file, ".png"))[..],
-            )
-            .into(),
+            ),
         }
     };
 }
