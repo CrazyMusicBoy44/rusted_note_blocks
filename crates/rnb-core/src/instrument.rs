@@ -30,7 +30,9 @@ impl Default for RawImage {
 
 impl From<&'static [u8]> for RawImage {
     fn from(value: &'static [u8]) -> Self {
-        Self { raw_image: Cow::from(value), }
+        Self {
+            raw_image: Cow::from(value),
+        }
     }
 }
 
@@ -47,7 +49,9 @@ impl RawSample {
 
 impl From<&'static [u8]> for RawSample {
     fn from(value: &'static [u8]) -> Self {
-        Self { raw_sample: Cow::from(value), }
+        Self {
+            raw_sample: Cow::from(value),
+        }
     }
 }
 

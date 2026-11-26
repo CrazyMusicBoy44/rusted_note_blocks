@@ -10,7 +10,7 @@ macro_rules! include_vanilla_instrument {
             ),
             raw_sample: RawSample::from(
                 &include_bytes!(concat!("../../../assets/samples/vanilla/", $file, ".ogg"))[..],
-            )
+            ),
         }
     };
 }
