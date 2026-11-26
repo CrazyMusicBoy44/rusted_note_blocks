@@ -1,5 +1,5 @@
 use crate::platform::DesktopPlatform;
-use rnb_core::load_from_bytes;
+use rnb_core::nbs::load_from_bytes;
 use rnb_gui::RNBGui;
 
 pub struct RNBDesktopApp {

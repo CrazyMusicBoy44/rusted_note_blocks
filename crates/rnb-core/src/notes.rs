@@ -1,5 +1,4 @@
-use crate::number_types::U0F16;
-use crate::number_types::U8F8;
+use crate::{U0F16, U8F8};
 use std::num::NonZeroU16;
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Hash)]

@@ -14,7 +14,7 @@ pub use instrument::RawSample;
 pub use file::LoadError;
 pub use file::LoadErrorKind;
 pub use file::LoadResult;
-pub use file::load_from_bytes;
+pub use file::nbs;
 
 pub use notes::InstrumentIndex;
 pub use notes::Note;
