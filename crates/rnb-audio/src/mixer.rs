@@ -3,7 +3,16 @@ use std::collections::HashMap;
 use rnb_core::{InstrumentIndex, Note, Song};
 
 pub struct Mixer {
-    _sample_cache: SampleCache,
+    sample_cache: SampleCache,
+}
+
+impl Mixer {
+    pub fn new() -> Self {
+        Self { sample_cache: SampleCache::default(), }
+    }
+    pub fn get_sample_from_note(&mut self, note: &Note, song: &Song) -> Option<()> {
+        self.sample_cache.get_sample_from_note(note, song)
+    }
 }
 
 #[derive(Default)]
