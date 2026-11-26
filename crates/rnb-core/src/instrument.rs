@@ -10,7 +10,13 @@ pub struct Instrument {
 
 #[derive(Clone, Debug)]
 pub struct RawImage {
-    pub raw_image: Cow<'static, [u8]>,
+    raw_image: Cow<'static, [u8]>,
+}
+
+impl RawImage {
+    pub fn as_byte_ref(&self) -> &[u8] {
+        &self.raw_image
+    }
 }
 
 impl Default for RawImage {

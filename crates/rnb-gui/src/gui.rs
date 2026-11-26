@@ -99,7 +99,7 @@ impl TextureCache {
         if let Some(instrument) = song.instruments.get_instrument(instrument_index) {
             let texture = ui.ctx().load_texture(
                 instrument.name.clone(),
-                png_bytes_to_color_image(&instrument.raw_image.raw_image).ok()?,
+                png_bytes_to_color_image(instrument.raw_image.as_byte_ref()).ok()?,
                 egui::TextureOptions {
                     magnification: egui::TextureFilter::Nearest,
                     minification: egui::TextureFilter::Linear,
