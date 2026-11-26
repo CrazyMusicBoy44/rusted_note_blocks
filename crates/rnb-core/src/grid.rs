@@ -1,6 +1,5 @@
 use crate::Note;
-
-pub struct GridRect {}
+use std::ops::Range;
 
 #[derive(Default, Clone, Debug)]
 pub struct NoteGrid {
@@ -10,7 +9,34 @@ pub struct NoteGrid {
 impl NoteGrid {
     #[must_use]
     pub fn get_note_at(&self, x: u32, y: u32) -> Option<Note> {
-        self.notes.get(x as usize)?.as_ref()?.get_note_at(y)
+        self.notes.get(usize::try_from(x).ok()?)?.as_ref()?.get_note_at(y)
+    }
+}
+
+impl NoteGrid {
+    #[must_use]
+    pub fn notes_between(&self, rect: GridRect) -> Vec<(GridPoint, Note)> {
+        let potential_slice: Option<Range<usize>> = (|| {
+            let len = self.notes.len();
+            let start = (usize::try_from(rect.min.x).ok()?).min(len);
+            let end = (usize::try_from(rect.max.x).ok()?).min(len);
+            Some(start..end)
+        })();
+
+        let mut note_list: Vec<(GridPoint, Note)> = Vec::new();
+
+        if let Some(slice_range) = potential_slice {
+            for potential_tick_index in slice_range {
+                if let Some(tick_maybe) = self.notes.get(potential_tick_index) && let Some(tick) = tick_maybe {
+                    for (y, note) in tick.notes.clone() {
+                        if let Ok(x) = u32::try_from(potential_tick_index) {
+                            note_list.push((GridPoint {x, y}, note));
+                        }
+                    }
+                }
+            }
+        }
+        note_list
     }
 }
 
@@ -48,5 +74,26 @@ impl Tick {
         let start = self.notes.partition_point(|&(k, _)| k < min);
         let end = start + self.notes[start..].partition_point(|&(k, _)| k <= max);
         &self.notes[start..end]
+    }
+}
+
+#[derive(Default, Debug, PartialEq, Eq, Copy, Clone)]
+pub struct GridPoint {
+    pub x: u32,
+    pub y: u32,
+}
+
+#[derive(Default, Debug, PartialEq, Eq, Copy, Clone)]
+pub struct GridRect {
+    min: GridPoint,
+    max: GridPoint,
+}
+
+impl GridRect {
+    pub fn from_points(point1: GridPoint, point2: GridPoint) -> Self {
+        Self {
+            min: GridPoint { x: point1.x.min(point2.x), y: point1.y.min(point2.y) },
+            max: GridPoint { x: point1.x.max(point2.x), y: point1.y.max(point2.y) }
+        }
     }
 }
