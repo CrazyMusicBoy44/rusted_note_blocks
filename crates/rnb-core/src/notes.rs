@@ -2,7 +2,7 @@ use crate::number_types::U0F16;
 use crate::number_types::U8F8;
 use std::num::NonZeroU16;
 
-#[derive(Debug, PartialEq, Eq, Clone, Copy, Hash)]
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Clone, Copy, Hash)]
 pub enum InstrumentIndex {
     Vanilla { index: NonZeroU16 },
     Custom { index: NonZeroU16 },
