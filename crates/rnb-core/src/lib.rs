@@ -8,6 +8,7 @@ pub(crate) mod vanilla_instruments;
 pub use instrument::Instrument;
 pub use instrument::Instruments;
 pub use instrument::RawImage;
+pub use instrument::RawSample;
 
 pub use file::LoadError;
 pub use file::LoadErrorKind;

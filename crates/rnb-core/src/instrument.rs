@@ -33,6 +33,22 @@ impl From<&'static [u8]> for RawImage {
     }
 }
 
+pub struct RawSample {
+    raw_sample: Cow<'static, [u8]>,
+}
+
+impl RawSample {
+    pub fn as_byte_ref(&self) -> &[u8] {
+        &self.raw_sample
+    }
+}
+
+impl From<&'static [u8]> for RawSample {
+    fn from(value: &'static [u8]) -> Self {
+        Self { raw_sample: Cow::from(value), }
+    }
+}
+
 #[derive(Clone, Debug)]
 pub struct Instruments {
     vanilla_instruments: Vec<Instrument>,
