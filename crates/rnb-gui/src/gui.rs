@@ -39,8 +39,17 @@ impl<P: RNBPlatform> RNBGui<P> {
                     let start_layer = clip_rect.min.y.max(0.0).floor() as u32;
                     let end_layer = clip_rect.max.y.ceil() as u32;
 
-                    for (point, note) in self.song.notes.notes_between(GridRect::from_points((start_tick, start_layer).into(), (end_tick, end_layer).into())) {
-                        Self::try_render_note_at_pos(&self.song.instruments, note, &mut self.texture_cache, point, ui);
+                    for (point, note) in self.song.notes.notes_between(GridRect::from_points(
+                        (start_tick, start_layer).into(),
+                        (end_tick, end_layer).into(),
+                    )) {
+                        Self::try_render_note_at_pos(
+                            &self.song.instruments,
+                            note,
+                            &mut self.texture_cache,
+                            point,
+                            ui,
+                        );
                     }
                 })
         });

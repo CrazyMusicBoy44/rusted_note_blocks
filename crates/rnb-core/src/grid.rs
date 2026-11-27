@@ -62,7 +62,11 @@ impl Tick {
     }
     pub fn set_note_at(&mut self, y: u32, note: Note) {
         match self.notes.binary_search_by_key(&y, |(pos, _)| *pos) {
-            Ok(index) => if let Some(pair_ref) = self.notes.get_mut(index) { *pair_ref = (y, note) },
+            Ok(index) => {
+                if let Some(pair_ref) = self.notes.get_mut(index) {
+                    *pair_ref = (y, note)
+                }
+            }
             Err(index) => self.notes.insert(index, (y, note)),
         }
     }

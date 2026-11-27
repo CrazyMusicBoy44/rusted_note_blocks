@@ -26,7 +26,7 @@ pub use numbers::U8F8;
 pub use song::Song;
 pub use song::SongMetadata;
 
-pub use grid::GridRect;
 pub use grid::GridPoint;
+pub use grid::GridRect;
 pub use grid::NoteGrid;
 pub(crate) use grid::Tick;
