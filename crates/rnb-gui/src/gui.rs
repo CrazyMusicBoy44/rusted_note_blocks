@@ -1,6 +1,6 @@
 use crate::RNBPlatform;
 use rnb_audio::Mixer;
-use rnb_core::{InstrumentIndex, Note, Song};
+use rnb_core::{GridPoint, GridRect, InstrumentIndex, Note, Song};
 use std::collections::HashMap;
 
 #[derive()]
@@ -44,8 +44,7 @@ impl<P: RNBPlatform> RNBGui<P> {
                             Self::try_render_note_at_pos(
                                 &self.song,
                                 &mut self.texture_cache,
-                                tick,
-                                layer,
+                                (tick, layer).into(),
                                 ui,
                             );
                         }
@@ -57,18 +56,17 @@ impl<P: RNBPlatform> RNBGui<P> {
     fn try_render_note_at_pos(
         song: &Song,
         texture_cache: &mut TextureCache,
-        x: u32,
-        y: u32,
+        point: GridPoint,
         ui: &egui::Ui,
     ) {
-        if let Some(note) = song.notes.get_note_at(x, y)
+        if let Some(note) = song.notes.get_note_at(point)
             && let Some(texture) = texture_cache.get_texture_from_note(&note, song, ui)
         {
             egui::Image::new(&texture).paint_at(
                 ui,
                 egui::Rect::from_min_max(
-                    egui::pos2(x as f32, y as f32),
-                    egui::pos2((x + 1) as f32, (y + 1) as f32),
+                    egui::pos2(point.x as f32, point.y as f32),
+                    egui::pos2((point.x + 1) as f32, (point.y + 1) as f32),
                 ),
             );
         }
