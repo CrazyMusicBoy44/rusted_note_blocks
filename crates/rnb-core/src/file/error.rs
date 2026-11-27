@@ -45,7 +45,7 @@ impl From<NumberError> for LoadError {
             NumberError::NotANumber => Self {
                 kind: LoadErrorKind::NumberWasNAN,
                 message: "Number was NAN".into(),
-            }
+            },
         }
     }
 }
