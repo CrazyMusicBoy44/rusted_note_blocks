@@ -66,14 +66,19 @@ impl Tick {
                 if let Some(pair_ref) = self.notes.get_mut(index) {
                     *pair_ref = (y, note);
                 }
-            },
+            }
             Err(index) => self.notes.insert(index, (y, note)),
         }
     }
     #[must_use]
     fn notes_between(&self, min: u32, max: u32) -> &[(u32, Note)] {
         let start = self.notes.partition_point(|&(k, _)| k < min);
-        let end = start.saturating_add(self.notes.get(start..).unwrap_or_default().partition_point(|&(k, _)| k <= max));
+        let end = start.saturating_add(
+            self.notes
+                .get(start..)
+                .unwrap_or_default()
+                .partition_point(|&(k, _)| k <= max),
+        );
         self.notes.get(start..end).unwrap_or_default()
     }
 }
