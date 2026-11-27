@@ -183,7 +183,7 @@ impl NBSNote {
 }
 
 fn nbs_number<T: FromLittleEndianBytes>(bytes: &[u8], index: &mut usize) -> LoadResult<T> {
-    let end = *index + T::SIZE;
+    let end = index.checked_add(T::SIZE).ok_or_else(|| {LoadError::new(LoadErrorKind::UnexpectedEof, "Index would overflow if we read that high")})?;
 
     let slice = bytes.get(*index..end).ok_or_else(|| {
         LoadError::new(
