@@ -1,6 +1,6 @@
 use crate::{
     Instrument, InstrumentIndex, Instruments, LoadError, LoadErrorKind, LoadResult, Note, NoteGrid,
-    RawImage, RawSample, Song, SongMetadata, Tick, U0F16, U8F8, ToUsize,
+    RawImage, RawSample, Song, SongMetadata, Tick, ToUsize, U0F16, U8F8,
 };
 use std::num::NonZeroU16;
 
@@ -62,12 +62,13 @@ fn parse_header(bytes: &[u8], index: &mut usize) -> LoadResult<(SongMetadata, i1
         ));
     }
     let signed_vanilla_instrument_count: i8 = nbs_number(bytes, index)?;
-    let vanilla_instrument_count: u8 = signed_vanilla_instrument_count.try_into().map_err(|_| {
-        LoadError::new(
-            LoadErrorKind::InvalidData,
-            "Vanilla instrument count is negative",
-        )
-    })?;
+    let vanilla_instrument_count: u8 =
+        signed_vanilla_instrument_count.try_into().map_err(|_| {
+            LoadError::new(
+                LoadErrorKind::InvalidData,
+                "Vanilla instrument count is negative",
+            )
+        })?;
     let song_length: i16 = nbs_number(bytes, index)?;
     let layer_count: i16 = nbs_number(bytes, index)?;
     let name: String = nbs_string(bytes, index)?;
@@ -104,12 +105,9 @@ fn parse_notes(
     signed_song_length: i16,
     vanilla_instrument_count: u8,
 ) -> LoadResult<NoteGrid> {
-    let song_length: usize = signed_song_length.try_into().map_err(|_| {
-        LoadError::new(
-            LoadErrorKind::InvalidData,
-            "Song length is negative",
-        )
-    })?;
+    let song_length: usize = signed_song_length
+        .try_into()
+        .map_err(|_| LoadError::new(LoadErrorKind::InvalidData, "Song length is negative"))?;
     let mut notes: Vec<Option<Tick>> = vec![None; song_length];
 
     let mut tick: i16 = -1;
@@ -183,7 +181,12 @@ impl NBSNote {
 }
 
 fn nbs_number<T: FromLittleEndianBytes>(bytes: &[u8], index: &mut usize) -> LoadResult<T> {
-    let end = index.checked_add(T::SIZE).ok_or_else(|| {LoadError::new(LoadErrorKind::UnexpectedEof, "Index would overflow if we read that high")})?;
+    let end = index.checked_add(T::SIZE).ok_or_else(|| {
+        LoadError::new(
+            LoadErrorKind::UnexpectedEof,
+            "Index would overflow if we read that high",
+        )
+    })?;
 
     let slice = bytes.get(*index..end).ok_or_else(|| {
         LoadError::new(

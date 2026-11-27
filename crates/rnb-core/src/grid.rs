@@ -9,7 +9,10 @@ pub struct NoteGrid {
 impl NoteGrid {
     #[must_use]
     pub fn get_note_at(&self, x: u32, y: u32) -> Option<Note> {
-        self.notes.get(usize::try_from(x).ok()?)?.as_ref()?.get_note_at(y)
+        self.notes
+            .get(usize::try_from(x).ok()?)?
+            .as_ref()?
+            .get_note_at(y)
     }
 }
 
@@ -27,10 +30,12 @@ impl NoteGrid {
 
         if let Some(slice_range) = potential_slice {
             for potential_tick_index in slice_range {
-                if let Some(tick_maybe) = self.notes.get(potential_tick_index) && let Some(tick) = tick_maybe {
+                if let Some(tick_maybe) = self.notes.get(potential_tick_index)
+                    && let Some(tick) = tick_maybe
+                {
                     for &(y, note) in tick.notes_between(rect.min.y, rect.max.y) {
                         if let Ok(x) = u32::try_from(potential_tick_index) {
-                            note_list.push((GridPoint {x, y}, note));
+                            note_list.push((GridPoint { x, y }, note));
                         }
                     }
                 }
@@ -92,8 +97,14 @@ pub struct GridRect {
 impl GridRect {
     pub fn from_points(point1: GridPoint, point2: GridPoint) -> Self {
         Self {
-            min: GridPoint { x: point1.x.min(point2.x), y: point1.y.min(point2.y) },
-            max: GridPoint { x: point1.x.max(point2.x), y: point1.y.max(point2.y) }
+            min: GridPoint {
+                x: point1.x.min(point2.x),
+                y: point1.y.min(point2.y),
+            },
+            max: GridPoint {
+                x: point1.x.max(point2.x),
+                y: point1.y.max(point2.y),
+            },
         }
     }
 }

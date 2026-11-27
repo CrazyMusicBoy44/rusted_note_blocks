@@ -19,9 +19,9 @@ pub use file::nbs;
 pub use notes::InstrumentIndex;
 pub use notes::Note;
 
+pub use numbers::ToUsize;
 pub use numbers::U0F16;
 pub use numbers::U8F8;
-pub use numbers::ToUsize;
 
 pub use song::Song;
 pub use song::SongMetadata;
