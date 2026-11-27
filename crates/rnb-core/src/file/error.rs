@@ -1,4 +1,4 @@
-use crate::numbers::NBSNumberError;
+use crate::numbers::NumberError;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum LoadErrorKind {
@@ -30,11 +30,11 @@ impl std::fmt::Display for LoadError {
     }
 }
 
-impl From<NBSNumberError> for LoadError {
-    fn from(value: NBSNumberError) -> Self {
+impl From<NumberError> for LoadError {
+    fn from(value: NumberError) -> Self {
         match value {
-            NBSNumberError::OutOfBounds => Self { kind: LoadErrorKind::NumberOutOfBounds, message: "Number was out of bounds".into() },
-            NBSNumberError::WasNegative => Self { kind: LoadErrorKind::NumberWasNegative, message: "Number should've been positive".into() },
+            NumberError::OutOfBounds => Self { kind: LoadErrorKind::NumberOutOfBounds, message: "Number was out of bounds".into() },
+            NumberError::WasNegative => Self { kind: LoadErrorKind::NumberWasNegative, message: "Number should've been positive".into() },
         }
     }
 }

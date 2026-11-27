@@ -95,12 +95,12 @@ impl From<f32> for U0F16 {
 }
 
 #[derive(Debug, Copy, Clone)]
-pub enum NBSNumberError {
+pub enum NumberError {
     OutOfBounds,
     WasNegative,
 }
 
-impl Display for NBSNumberError {
+impl Display for NumberError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::OutOfBounds => write!(f, "{self:?}: Number was not in the valid range"),
@@ -109,7 +109,7 @@ impl Display for NBSNumberError {
     }
 }
 
-impl Error for NBSNumberError {}
+impl Error for NumberError {}
 
 #[cfg(target_pointer_width = "16")]
 compile_error!("this crate requires a 32-bit or 64-bit target");
