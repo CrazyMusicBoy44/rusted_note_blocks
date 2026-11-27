@@ -107,6 +107,7 @@ pub enum NumberError {
     OutOfBounds,
     WasNegative,
     NotANumber,
+    ShouldNotBePossible,
 }
 
 impl Display for NumberError {
@@ -115,6 +116,7 @@ impl Display for NumberError {
             Self::OutOfBounds => write!(f, "{self:?}: Number was not in the valid range"),
             Self::WasNegative => write!(f, "{self:?}: Number was negative and shouldn't have"),
             Self::NotANumber => write!(f, "{self:?}: Number wasn't a number"),
+            Self::ShouldNotBePossible => write!(f, "{self:?} HOW DID YOU DO THIS PLEASE LET ME KNOW")
         }
     }
 }
