@@ -97,12 +97,14 @@ impl From<f32> for U0F16 {
 #[derive(Debug, Copy, Clone)]
 pub enum NBSNumberError {
     OutOfBounds,
+    WasNegative,
 }
 
 impl Display for NBSNumberError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::OutOfBounds => write!(f, "{self:?}: Number was not in the valid range"),
+            Self::WasNegative => write!(f, "{self:?}: Number was negative, number should not have been negative")
         }
     }
 }
