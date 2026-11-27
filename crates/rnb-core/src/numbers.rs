@@ -81,12 +81,17 @@ impl U0F16 {
     pub fn to_f32(&self) -> f32 {
         f32::from(self.0) / 65536.0
     }
+
     pub const fn from_nbs_velocity(velocity: i8) -> Self {
         Self(((velocity as u32 * 65535) / 100) as u16)
     }
-    #[must_use]
-    pub fn to_nbs_velocity(&self) -> i8 {
-        ((u32::from(self.0) * 100) / 65535) as i8
+
+    /// returns the nbs velocity value (i8) from a [`U8F8`]
+    ///
+    /// # Errors
+    /// Returns [`NumberError::ShouldNotBePossible`] if somehow the impossible happens
+    pub fn to_nbs_velocity(&self) -> Result<i8, NumberError> {
+        i8::try_from((u32::from(self.0) * 100) / 65535).map_err(|_| NumberError::ShouldNotBePossible)
     }
 }
 
