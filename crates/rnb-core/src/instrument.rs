@@ -15,6 +15,7 @@ pub struct RawImage {
 }
 
 impl RawImage {
+    #[must_use]
     pub fn as_byte_ref(&self) -> &[u8] {
         &self.raw_image
     }
@@ -42,6 +43,7 @@ pub struct RawSample {
 }
 
 impl RawSample {
+    #[must_use]
     pub fn as_byte_ref(&self) -> &[u8] {
         &self.raw_sample
     }

@@ -95,6 +95,7 @@ pub struct GridRect {
 }
 
 impl GridRect {
+    #[must_use]
     pub fn from_points(point1: GridPoint, point2: GridPoint) -> Self {
         Self {
             min: GridPoint {

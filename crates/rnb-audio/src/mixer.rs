@@ -7,6 +7,7 @@ pub struct Mixer {
 }
 
 impl Mixer {
+    #[must_use]
     pub fn new() -> Self {
         Self {
             sample_cache: SampleCache::default(),
@@ -14,6 +15,12 @@ impl Mixer {
     }
     pub fn get_sample_from_note(&mut self, note: &Note, song: &Song) -> Option<()> {
         self.sample_cache.get_sample_from_note(note, song)
+    }
+}
+
+impl Default for Mixer {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
@@ -29,11 +36,14 @@ impl SampleCache {
 
     fn get_sample(&mut self, instrument_index: InstrumentIndex, song: &Song) -> Option<()> {
         if let Some(sample) = self.samples.get(&instrument_index) {
-            return Some(sample.clone());
+            return {
+                let _: () = *sample;
+                Some(())
+            };
         }
         if let Some(_instrument) = song.instruments.get_instrument(instrument_index) {
             let sample = ();
-            self.samples.insert(instrument_index, sample.clone());
+            self.samples.insert(instrument_index, sample);
             return Some(sample);
         }
         None
