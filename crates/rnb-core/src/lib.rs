@@ -2,7 +2,7 @@ mod file;
 mod grid;
 mod instrument;
 mod notes;
-mod number_types;
+mod numbers;
 mod song;
 pub(crate) mod vanilla_instruments;
 
@@ -19,8 +19,9 @@ pub use file::nbs;
 pub use notes::InstrumentIndex;
 pub use notes::Note;
 
-pub use number_types::U0F16;
-pub use number_types::U8F8;
+pub use numbers::U0F16;
+pub use numbers::U8F8;
+pub use numbers::ToUsize;
 
 pub use song::Song;
 pub use song::SongMetadata;
