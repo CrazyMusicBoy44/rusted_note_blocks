@@ -92,3 +92,18 @@ impl From<f32> for U0F16 {
         Self((n * 65536.0) as u16)
     }
 }
+
+#[cfg(target_pointer_width = "16")]
+compile_error!("this crate requires a 32-bit or 64-bit target");
+
+pub trait ToUsize {
+    fn to_usize(self) -> usize;
+}
+
+impl ToUsize for u32 {
+    #[inline]
+    #[allow(clippy::as_conversions)]
+    fn to_usize(self) -> usize {
+        self as usize
+    }
+}
