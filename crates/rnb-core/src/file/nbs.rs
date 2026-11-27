@@ -212,7 +212,12 @@ fn nbs_string(bytes: &[u8], starting_index: &mut usize) -> LoadResult<String> {
         LoadError::new(LoadErrorKind::InvalidData, "NBS String length was negative")
     })?;
 
-    let end = *starting_index + len;
+    let end = starting_index.checked_add(len).ok_or_else(|| {
+        LoadError::new(
+            LoadErrorKind::UnexpectedEof,
+            "Index would overflow if we read that high",
+        )
+    })?;
 
     let slice = bytes.get(*starting_index..end).ok_or_else(|| {
         LoadError::new(
