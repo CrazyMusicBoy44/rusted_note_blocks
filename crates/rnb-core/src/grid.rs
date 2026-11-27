@@ -1,5 +1,4 @@
-use crate::Note;
-use std::ops::Range;
+use crate::{Note, ToUsize};
 
 #[derive(Default, Clone, Debug)]
 pub struct NoteGrid {
@@ -19,24 +18,17 @@ impl NoteGrid {
 impl NoteGrid {
     #[must_use]
     pub fn notes_between(&self, rect: GridRect) -> Vec<(GridPoint, Note)> {
-        let potential_slice: Option<Range<usize>> = (|| {
-            let len = self.notes.len();
-            let start = (usize::try_from(rect.min.x).ok()?).min(len);
-            let end = (usize::try_from(rect.max.x).ok()?).min(len);
-            Some(start..end)
-        })();
+        let len = self.notes.len();
+        let start = rect.min.x.to_usize().min(len);
+        let end = rect.max.x.to_usize().min(len);
 
         let mut note_list: Vec<(GridPoint, Note)> = Vec::new();
 
-        if let Some(slice_range) = potential_slice {
-            for potential_tick_index in slice_range {
-                if let Some(tick_maybe) = self.notes.get(potential_tick_index)
-                    && let Some(tick) = tick_maybe
-                {
-                    for &(y, note) in tick.notes_between(rect.min.y, rect.max.y) {
-                        if let Ok(x) = u32::try_from(potential_tick_index) {
-                            note_list.push((GridPoint { x, y }, note));
-                        }
+        for potential_tick_index in start..=end {
+            if let Some(Some(tick)) = self.notes.get(potential_tick_index) {
+                for &(y, note) in tick.notes_between(rect.min.y, rect.max.y) {
+                    if let Ok(x) = u32::try_from(potential_tick_index) {
+                        note_list.push((GridPoint { x, y }, note));
                     }
                 }
             }
