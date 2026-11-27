@@ -181,7 +181,7 @@ impl NBSNote {
         Ok(Note {
             instrument_index,
             volume: U0F16::from_nbs_velocity(self.velocity),
-            pitch: U8F8::from_key_and_pitch(self.key, self.pitch),
+            pitch: U8F8::from_nbs_key_and_pitch(self.key, self.pitch)?,
             pan: self.pan.wrapping_sub(100).cast_signed(),
         })
     }

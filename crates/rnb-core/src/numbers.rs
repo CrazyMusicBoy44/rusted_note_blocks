@@ -13,8 +13,18 @@ impl U8F8 {
     pub fn to_f32(&self) -> f32 {
         f32::from(self.0) / 256.0
     }
-    pub fn from_key_and_pitch(key: i8, pitch: i16) -> Self {
-        Self(((i32::from(key) * 100 + i32::from(pitch)) * 64 / 25) as u16)
+
+    /// Returns a U8F8 based on raw NBS `key` and `pitch` values
+    ///
+    /// # Errors
+    ///
+    /// [`NumberError::WasNegative`] if the resulting key/pitch combo would be below 0 (only possible with negative
+    /// pitch)
+    /// [`NumberError::OutOfBounds`] if the pitch is abnormally large
+    pub fn from_nbs_key_and_pitch(key: i8, pitch: i16) -> Result<Self, NumberError> {
+        let expanded: u32 = (i32::from(key).saturating_mul(100).saturating_add(i32::from(pitch))).try_into().map_err(|_| NumberError::WasNegative)?;
+
+        Ok(Self(u16::try_from(expanded.saturating_mul(256) / 100).map_err(|_| NumberError::OutOfBounds)?))
     }
 }
 
