@@ -73,8 +73,8 @@ impl Tick {
     #[must_use]
     fn notes_between(&self, min: u32, max: u32) -> &[(u32, Note)] {
         let start = self.notes.partition_point(|&(k, _)| k < min);
-        let end = start + self.notes[start..].partition_point(|&(k, _)| k <= max);
-        &self.notes[start..end]
+        let end = start.saturating_add(self.notes.get(start..).unwrap_or_default().partition_point(|&(k, _)| k <= max));
+        self.notes.get(start..end).unwrap_or_default()
     }
 }
 
