@@ -27,5 +27,6 @@ pub use song::Song;
 pub use song::SongMetadata;
 
 pub use grid::GridRect;
+pub use grid::GridPoint;
 pub use grid::NoteGrid;
 pub(crate) use grid::Tick;
