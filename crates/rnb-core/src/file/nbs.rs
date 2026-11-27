@@ -101,16 +101,16 @@ fn parse_header(bytes: &[u8], index: &mut usize) -> LoadResult<(SongMetadata, i1
 fn parse_notes(
     bytes: &[u8],
     index: &mut usize,
-    song_length: i16,
+    signed_song_length: i16,
     vanilla_instrument_count: u8,
 ) -> LoadResult<NoteGrid> {
-    if song_length < 0 {
-        return Err(LoadError::new(
+    let song_length: usize = signed_song_length.try_into().map_err(|_| {
+        LoadError::new(
             LoadErrorKind::InvalidData,
             "Song length is negative",
-        ));
-    }
-    let mut notes: Vec<Option<Tick>> = vec![None; (song_length as usize) + 16];
+        )
+    })?;
+    let mut notes: Vec<Option<Tick>> = vec![None; song_length];
 
     let mut tick: i16 = -1;
 
