@@ -66,11 +66,11 @@ impl Tick {
     pub fn get_note_at(&self, y: u32) -> Option<Note> {
         self.notes
             .binary_search_by_key(&y, |(pos, _)| *pos)
-            .map_or(None, |index| Some(self.notes[index].1))
+            .map_or(None, |index| Some(self.notes.get(index)?.1))
     }
     pub fn set_note_at(&mut self, y: u32, note: Note) {
         match self.notes.binary_search_by_key(&y, |(pos, _)| *pos) {
-            Ok(index) => self.notes[index] = (y, note),
+            Ok(index) => if let Some(thing) = self.notes.get_mut(index) { *thing = (y, note) },
             Err(index) => self.notes.insert(index, (y, note)),
         }
     }
