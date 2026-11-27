@@ -28,7 +28,7 @@ impl NoteGrid {
         if let Some(slice_range) = potential_slice {
             for potential_tick_index in slice_range {
                 if let Some(tick_maybe) = self.notes.get(potential_tick_index) && let Some(tick) = tick_maybe {
-                    for (y, note) in tick.notes.clone() {
+                    for &(y, note) in tick.notes_between(rect.min.y, rect.max.y) {
                         if let Ok(x) = u32::try_from(potential_tick_index) {
                             note_list.push((GridPoint {x, y}, note));
                         }
