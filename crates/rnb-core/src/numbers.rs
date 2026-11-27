@@ -1,5 +1,7 @@
 use std::{
-    error::Error, fmt::{self, Display}, ops::{Add, Sub},
+    error::Error,
+    fmt::{self, Display},
+    ops::{Add, Sub},
 };
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default)]
@@ -100,7 +102,7 @@ pub enum NBSNumberError {
 impl Display for NBSNumberError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Self::OutOfBounds => write!(f, "{self:?}: Number was not in the valid range")
+            Self::OutOfBounds => write!(f, "{self:?}: Number was not in the valid range"),
         }
     }
 }
