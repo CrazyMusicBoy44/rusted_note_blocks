@@ -33,8 +33,8 @@ impl U8F8 {
         ))
     }
 
-    const MAX: Self = Self(u16::MAX);
-    const MIN: Self = Self(u16::MIN);
+    pub const MAX: Self = Self(u16::MAX);
+    pub const MIN: Self = Self(u16::MIN);
 }
 
 impl fmt::Debug for U8F8 {
