@@ -22,9 +22,16 @@ impl U8F8 {
     /// pitch)
     /// [`NumberError::OutOfBounds`] if the pitch is abnormally large
     pub fn from_nbs_key_and_pitch(key: i8, pitch: i16) -> Result<Self, NumberError> {
-        let expanded: u32 = (i32::from(key).saturating_mul(100).saturating_add(i32::from(pitch))).try_into().map_err(|_| NumberError::WasNegative)?;
+        let expanded: u32 = (i32::from(key)
+            .saturating_mul(100)
+            .saturating_add(i32::from(pitch)))
+        .try_into()
+        .map_err(|_| NumberError::WasNegative)?;
 
-        Ok(Self(u16::try_from(expanded.saturating_mul(256) / 100).map_err(|_| NumberError::OutOfBounds)?))
+        Ok(Self(
+            u16::try_from(expanded.saturating_mul(256) / 100)
+                .map_err(|_| NumberError::OutOfBounds)?,
+        ))
     }
 }
 
@@ -114,7 +121,10 @@ impl Display for NumberError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::OutOfBounds => write!(f, "{self:?}: Number was not in the valid range"),
-            Self::WasNegative => write!(f, "{self:?}: Number was negative, number should not have been negative")
+            Self::WasNegative => write!(
+                f,
+                "{self:?}: Number was negative, number should not have been negative"
+            ),
         }
     }
 }

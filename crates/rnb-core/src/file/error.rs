@@ -33,8 +33,14 @@ impl std::fmt::Display for LoadError {
 impl From<NumberError> for LoadError {
     fn from(value: NumberError) -> Self {
         match value {
-            NumberError::OutOfBounds => Self { kind: LoadErrorKind::NumberOutOfBounds, message: "Number was out of bounds".into() },
-            NumberError::WasNegative => Self { kind: LoadErrorKind::NumberWasNegative, message: "Number should've been positive".into() },
+            NumberError::OutOfBounds => Self {
+                kind: LoadErrorKind::NumberOutOfBounds,
+                message: "Number was out of bounds".into(),
+            },
+            NumberError::WasNegative => Self {
+                kind: LoadErrorKind::NumberWasNegative,
+                message: "Number should've been positive".into(),
+            },
         }
     }
 }
