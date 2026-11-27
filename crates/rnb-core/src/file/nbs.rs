@@ -108,7 +108,7 @@ fn parse_notes(
     let song_length: usize = signed_song_length
         .try_into()
         .map_err(|_| LoadError::new(LoadErrorKind::InvalidData, "Song length is negative"))?;
-    let mut notes: Vec<Option<Tick>> = vec![None; song_length];
+    let mut notes: Vec<Option<Tick>> = vec![None; song_length.saturating_add(1)];
 
     let mut tick: i16 = -1;
 
