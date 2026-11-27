@@ -9,7 +9,7 @@ impl NoteGrid {
     #[must_use]
     pub fn get_note_at(&self, point: GridPoint) -> Option<Note> {
         self.notes
-            .get(usize::try_from(point.x).ok()?)?
+            .get(point.x.to_usize())?
             .as_ref()?
             .get_note_at(point.y)
     }
