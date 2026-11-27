@@ -1,6 +1,6 @@
 use crate::{
     Instrument, InstrumentIndex, Instruments, LoadError, LoadErrorKind, LoadResult, Note, NoteGrid,
-    RawImage, RawSample, Song, SongMetadata, Tick, U0F16, U8F8,
+    RawImage, RawSample, Song, SongMetadata, Tick, U0F16, U8F8, ToUsize,
 };
 use std::num::NonZeroU16;
 
@@ -33,7 +33,7 @@ fn parse_instruments(bytes: &[u8], index: &mut usize) -> LoadResult<Instruments>
     let custom_instrument_count: u8 = nbs_number(bytes, index)?;
 
     let mut custom_instruments: Vec<Instrument> =
-        Vec::with_capacity(custom_instrument_count as usize);
+        Vec::with_capacity(usize::from(custom_instrument_count));
 
     for _ in 0..custom_instrument_count {
         let custom_instrument_name = nbs_string(bytes, index)?;
@@ -62,14 +62,12 @@ fn parse_header(bytes: &[u8], index: &mut usize) -> LoadResult<(SongMetadata, i1
         ));
     }
     let signed_vanilla_instrument_count: i8 = nbs_number(bytes, index)?;
-    let vanilla_instrument_count: u8 = if signed_vanilla_instrument_count < 0 {
-        return Err(LoadError::new(
+    let vanilla_instrument_count: u8 = signed_vanilla_instrument_count.try_into().map_err(|_| {
+        LoadError::new(
             LoadErrorKind::InvalidData,
             "Vanilla instrument count is negative",
-        ));
-    } else {
-        signed_vanilla_instrument_count as u8
-    };
+        )
+    })?;
     let song_length: i16 = nbs_number(bytes, index)?;
     let layer_count: i16 = nbs_number(bytes, index)?;
     let name: String = nbs_string(bytes, index)?;
