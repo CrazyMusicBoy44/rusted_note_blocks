@@ -160,17 +160,22 @@ struct NBSNote {
 
 impl NBSNote {
     fn to_note(&self, vanilla_instrument_count: u8) -> LoadResult<Note> {
-        let instrument_index = self.instrument.checked_sub(vanilla_instrument_count).map_or_else(
-            || InstrumentIndex::Vanilla {
-                index: NonZeroU16::MIN.saturating_add(u16::from(self.instrument)),
-            },
-
-            |custom_idx| InstrumentIndex::Custom {
-                index: NonZeroU16::MIN.saturating_add(u16::from(custom_idx)),
-            },
-        );
+        let instrument_index = self
+            .instrument
+            .checked_sub(vanilla_instrument_count)
+            .map_or_else(
+                || InstrumentIndex::Vanilla {
+                    index: NonZeroU16::MIN.saturating_add(u16::from(self.instrument)),
+                },
+                |custom_idx| InstrumentIndex::Custom {
+                    index: NonZeroU16::MIN.saturating_add(u16::from(custom_idx)),
+                },
+            );
         if self.pan > 200 {
-            return Err(LoadError::new(LoadErrorKind::InvalidData, "Pan was greater than 200"))
+            return Err(LoadError::new(
+                LoadErrorKind::InvalidData,
+                "Pan was greater than 200",
+            ));
         }
 
         Ok(Note {
