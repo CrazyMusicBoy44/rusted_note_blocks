@@ -131,7 +131,7 @@ fn parse_notes(
                 pan: nbs_number(bytes, index)?,
                 pitch: nbs_number(bytes, index)?,
             }
-            .to_note(vanilla_instrument_count);
+            .to_note(vanilla_instrument_count)?;
             tick_notes.push((layer as u32, note));
         }
         notes[tick as usize] = Some(Tick::from_vec(tick_notes));
@@ -159,7 +159,7 @@ struct NBSNote {
 }
 
 impl NBSNote {
-    fn to_note(&self, vanilla_instrument_count: u8) -> Note {
+    fn to_note(&self, vanilla_instrument_count: u8) -> LoadResult<Note> {
         let instrument_index = self.instrument.checked_sub(vanilla_instrument_count).map_or_else(
             || InstrumentIndex::Vanilla {
                 index: NonZeroU16::MIN.saturating_add(u16::from(self.instrument)),
@@ -169,13 +169,16 @@ impl NBSNote {
                 index: NonZeroU16::MIN.saturating_add(u16::from(custom_idx)),
             },
         );
+        if self.pan > 200 {
+            return Err(LoadError::new(LoadErrorKind::InvalidData, "Pan was greater than 200"))
+        }
 
-        Note {
+        Ok(Note {
             instrument_index,
             volume: U0F16::from_nbs_velocity(self.velocity),
             pitch: U8F8::from_key_and_pitch(self.key, self.pitch),
-            pan: (i16::from(self.pan) - 100) as i8,
-        }
+            pan: self.pan.wrapping_sub(100).cast_signed(),
+        })
     }
 }
 
