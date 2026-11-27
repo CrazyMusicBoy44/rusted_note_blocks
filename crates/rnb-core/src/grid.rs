@@ -64,9 +64,9 @@ impl Tick {
         match self.notes.binary_search_by_key(&y, |(pos, _)| *pos) {
             Ok(index) => {
                 if let Some(pair_ref) = self.notes.get_mut(index) {
-                    *pair_ref = (y, note)
+                    *pair_ref = (y, note);
                 }
-            }
+            },
             Err(index) => self.notes.insert(index, (y, note)),
         }
     }
