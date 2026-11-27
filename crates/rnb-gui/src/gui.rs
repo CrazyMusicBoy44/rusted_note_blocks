@@ -1,6 +1,6 @@
 use crate::RNBPlatform;
 use rnb_audio::Mixer;
-use rnb_core::{GridPoint, GridRect, InstrumentIndex, Note, Song};
+use rnb_core::{GridPoint, GridRect, InstrumentIndex, Instruments, Note, Song};
 use std::collections::HashMap;
 
 #[derive()]
@@ -40,21 +40,20 @@ impl<P: RNBPlatform> RNBGui<P> {
                     let end_layer = clip_rect.max.y.ceil() as u32;
 
                     for (point, note) in self.song.notes.notes_between(GridRect::from_points((start_tick, start_layer).into(), (end_tick, end_layer).into())) {
-                        Self::try_render_note_at_pos(&self.song, &mut self.texture_cache, point, ui);
+                        Self::try_render_note_at_pos(&self.song.instruments, note, &mut self.texture_cache, point, ui);
                     }
                 })
         });
     }
 
     fn try_render_note_at_pos(
-        song: &Song,
+        instruments: &Instruments,
+        note: Note,
         texture_cache: &mut TextureCache,
         point: GridPoint,
         ui: &egui::Ui,
     ) {
-        if let Some(note) = song.notes.get_note_at(point)
-            && let Some(texture) = texture_cache.get_texture_from_note(&note, song, ui)
-        {
+        if let Some(texture) = texture_cache.get_texture_from_note(&note, instruments, ui) {
             egui::Image::new(&texture).paint_at(
                 ui,
                 egui::Rect::from_min_max(
@@ -75,22 +74,22 @@ impl TextureCache {
     fn get_texture_from_note(
         &mut self,
         note: &Note,
-        song: &Song,
+        instruments: &Instruments,
         ui: &egui::Ui,
     ) -> Option<egui::TextureHandle> {
-        self.get_texture(note.instrument_index, song, ui)
+        self.get_texture(note.instrument_index, instruments, ui)
     }
 
     fn get_texture(
         &mut self,
         instrument_index: InstrumentIndex,
-        song: &Song,
+        instruments: &Instruments,
         ui: &egui::Ui,
     ) -> Option<egui::TextureHandle> {
         if let Some(texture) = self.textures.get(&instrument_index) {
             return Some(texture.clone());
         }
-        if let Some(instrument) = song.instruments.get_instrument(instrument_index) {
+        if let Some(instrument) = instruments.get_instrument(instrument_index) {
             let texture = ui.ctx().load_texture(
                 instrument.name.clone(),
                 png_bytes_to_color_image(instrument.raw_image.as_byte_ref()).ok()?,
