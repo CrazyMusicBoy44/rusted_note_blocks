@@ -160,16 +160,15 @@ struct NBSNote {
 
 impl NBSNote {
     fn to_note(&self, vanilla_instrument_count: u8) -> Note {
-        let instrument_index = if self.instrument <= vanilla_instrument_count {
-            InstrumentIndex::Vanilla {
-                index: NonZeroU16::new(u16::from(self.instrument) + 1).unwrap(),
-            }
-        } else {
-            InstrumentIndex::Custom {
-                index: NonZeroU16::new(u16::from(self.instrument - vanilla_instrument_count) + 1)
-                    .unwrap(),
-            }
-        };
+        let instrument_index = self.instrument.checked_sub(vanilla_instrument_count).map_or_else(
+            || InstrumentIndex::Vanilla {
+                index: NonZeroU16::MIN.saturating_add(u16::from(self.instrument)),
+            },
+
+            |custom_idx| InstrumentIndex::Custom {
+                index: NonZeroU16::MIN.saturating_add(u16::from(custom_idx)),
+            },
+        );
 
         Note {
             instrument_index,
