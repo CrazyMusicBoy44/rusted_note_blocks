@@ -1,7 +1,6 @@
 use std::{
     error::Error,
     fmt::{self, Display},
-    ops::{Add, Sub},
 };
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default)]
@@ -50,34 +49,6 @@ impl From<u8> for U8F8 {
 impl From<f32> for U8F8 {
     fn from(n: f32) -> Self {
         Self((n * 256.0) as u16)
-    }
-}
-
-impl Sub for U8F8 {
-    type Output = Self;
-    fn sub(self, other: Self) -> Self::Output {
-        Self(self.0 - other.0)
-    }
-}
-
-impl Sub<u8> for U8F8 {
-    type Output = Self;
-    fn sub(self, other: u8) -> Self::Output {
-        Self(self.0 - u16::from(other) * 256)
-    }
-}
-
-impl Add for U8F8 {
-    type Output = Self;
-    fn add(self, other: Self) -> Self::Output {
-        Self(self.0 + other.0)
-    }
-}
-
-impl Add<u8> for U8F8 {
-    type Output = Self;
-    fn add(self, other: u8) -> Self::Output {
-        Self(self.0 + u16::from(other) * 256)
     }
 }
 
