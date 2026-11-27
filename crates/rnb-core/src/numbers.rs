@@ -93,6 +93,9 @@ impl U0F16 {
     pub fn to_nbs_velocity(&self) -> Result<i8, NumberError> {
         i8::try_from((u32::from(self.0) * 100) / 65535).map_err(|_| NumberError::ShouldNotBePossible)
     }
+
+    pub const MAX: Self = Self(u16::MAX);
+    pub const MIN: Self = Self(u16::MIN);
 }
 
 impl fmt::Debug for U0F16 {
@@ -101,9 +104,26 @@ impl fmt::Debug for U0F16 {
     }
 }
 
-impl From<f32> for U0F16 {
-    fn from(n: f32) -> Self {
-        Self((n * 65536.0) as u16)
+impl TryFrom<f32> for U0F16 {
+    type Error = NumberError;
+
+    fn try_from(value: f32) -> Result<Self, Self::Error> {
+        if value.is_nan() {
+            return Err(NumberError::NotANumber);
+        }
+        if value.is_sign_negative() {
+            return Err(NumberError::WasNegative);
+        }
+        if value > Self::MAX.to_f32() {
+            return Err(NumberError::OutOfBounds);
+        }
+        let scaled = (value * f32::from(u16::MAX)).round();
+        #[allow(
+            clippy::cast_possible_truncation,
+            clippy::cast_sign_loss,
+            clippy::as_conversions
+        )]
+        Ok(Self(scaled as u16))
     }
 }
 
