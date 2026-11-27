@@ -1,6 +1,6 @@
 use crate::{
     Instrument, InstrumentIndex, Instruments, LoadError, LoadErrorKind, LoadResult, Note, NoteGrid,
-    RawImage, RawSample, Song, SongMetadata, Tick, ToUsize, U0F16, U8F8,
+    RawImage, RawSample, Song, SongMetadata, Tick, U0F16, U8F8,
 };
 use std::num::NonZeroU16;
 
