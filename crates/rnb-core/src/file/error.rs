@@ -7,6 +7,7 @@ pub enum LoadErrorKind {
     UnexpectedEof,
     NumberOutOfBounds,
     NumberWasNegative,
+    NumberWasNAN,
 }
 
 #[derive(Debug)]
@@ -41,6 +42,10 @@ impl From<NumberError> for LoadError {
                 kind: LoadErrorKind::NumberWasNegative,
                 message: "Number should've been positive".into(),
             },
+            NumberError::NotANumber => Self {
+                kind: LoadErrorKind::NumberWasNAN,
+                message: "Number was NAN".into(),
+            }
         }
     }
 }

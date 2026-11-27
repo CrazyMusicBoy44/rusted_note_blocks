@@ -86,16 +86,15 @@ impl From<f32> for U0F16 {
 pub enum NumberError {
     OutOfBounds,
     WasNegative,
+    NotANumber,
 }
 
 impl Display for NumberError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Self::OutOfBounds => write!(f, "{self:?}: Number was not in the valid range"),
-            Self::WasNegative => write!(
-                f,
-                "{self:?}: Number was negative, number should not have been negative"
-            ),
+            Self::WasNegative => write!(f, "{self:?}: Number was negative and shouldn't have"),
+            Self::NotANumber => write!(f, "{self:?}: Number wasn't a number"),
         }
     }
 }
