@@ -54,9 +54,9 @@ impl TryFrom<f32> for U8F8 {
 
     fn try_from(value: f32) -> Result<Self, Self::Error> {
         let scaled = (value * 256.0).round();
-        if scaled.is_nan() { return Err(NumberError::NotANumber) };
-        if scaled.is_sign_negative() { return Err(NumberError::WasNegative) };
-        if scaled > Self::MAX.to_f32() { return Err(NumberError::OutOfBounds) };
+        if scaled.is_nan() { return Err(NumberError::NotANumber) }
+        if scaled.is_sign_negative() { return Err(NumberError::WasNegative) }
+        if scaled > Self::MAX.to_f32() { return Err(NumberError::OutOfBounds) }
         #[allow(clippy::cast_possible_truncation, clippy::cast_sign_loss, clippy::as_conversions)]
         Ok(Self(scaled as u16))
     }
