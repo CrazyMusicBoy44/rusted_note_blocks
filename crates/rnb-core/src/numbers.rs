@@ -91,7 +91,8 @@ impl U0F16 {
     /// # Errors
     /// Returns [`NumberError::ShouldNotBePossible`] if somehow the impossible happens
     pub fn to_nbs_velocity(&self) -> Result<i8, NumberError> {
-        i8::try_from((u32::from(self.0) * 100) / 65535).map_err(|_| NumberError::ShouldNotBePossible)
+        i8::try_from((u32::from(self.0) * 100) / 65535)
+            .map_err(|_| NumberError::ShouldNotBePossible)
     }
 
     pub const MAX: Self = Self(u16::MAX);
@@ -141,7 +142,9 @@ impl Display for NumberError {
             Self::OutOfBounds => write!(f, "{self:?}: Number was not in the valid range"),
             Self::WasNegative => write!(f, "{self:?}: Number was negative and shouldn't have"),
             Self::NotANumber => write!(f, "{self:?}: Number wasn't a number"),
-            Self::ShouldNotBePossible => write!(f, "{self:?} HOW DID YOU DO THIS PLEASE LET ME KNOW")
+            Self::ShouldNotBePossible => {
+                write!(f, "{self:?} HOW DID YOU DO THIS PLEASE LET ME KNOW")
+            }
         }
     }
 }
