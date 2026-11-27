@@ -1,6 +1,5 @@
 use std::{
-    fmt,
-    ops::{Add, Sub},
+    error::Error, fmt::{self, Display}, ops::{Add, Sub},
 };
 
 #[derive(Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default)]
@@ -92,6 +91,21 @@ impl From<f32> for U0F16 {
         Self((n * 65536.0) as u16)
     }
 }
+
+#[derive(Debug, Copy, Clone)]
+pub enum NBSNumberError {
+    OutOfBounds,
+}
+
+impl Display for NBSNumberError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::OutOfBounds => write!(f, "{self:?}: Number was not in the valid range")
+        }
+    }
+}
+
+impl Error for NBSNumberError {}
 
 #[cfg(target_pointer_width = "16")]
 compile_error!("this crate requires a 32-bit or 64-bit target");
